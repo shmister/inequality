@@ -1,3 +1,4 @@
+import numpy as np
 
 beta = 0.99  # discount factor
 gamma = 1  # utility function parameter
@@ -9,30 +10,32 @@ l_bar = 1/0.9  # time endowment; normalizes labor supply to 1 in bad state
 
 N = 10000  # number of agents for stochastic simulation
 J = 1000  # number of grid points for stochastic simulation
+T = 1000 # number of time periods for stochastic simulation
+
 k_min = 0 # min capital
 k_max = 1000 # max capital
-t_skip = 100 # skip periods
-T = 1000 + t_skip # simulation time periods
 ngridk = 100 # number of grid points
+tau = 7 # fine grid parameter
 
-x = np.linspace(0, 0.5, ngridk)
-tau = 7
-y = (x/np.max(x))**tau
-km_min = 30
-km_max = 50
-k = k_min + (k_max-k_min)*y
-ngridkm = 4
-km = np.linspace(km_min, km_max, ngridkm)
+t_skip = 100 # skip periods
+
+km_min = 30 # aggregate capital min grid point
+km_max = 50 # aggregate capital max grid point
+ngridkm = 4 # aggregate capital number of grid points
 
 
 nstates_id = 2    # number of states for the idiosyncratic shock
 nstates_ag = 2    # number of states for the aggregate shock
+
+
 ur_b = 0.1        # unemployment rate in a bad aggregate state
 er_b = (1-ur_b)   # employment rate in a bad aggregate state
 ur_g = 0.04       # unemployment rate in a good aggregate state
 er_g = (1-ur_g)   # employment rate in a good aggregate state
-epsilon = np.arange(0, nstates_id)
-delta_a = 0.01
+
+#epsilon = np.arange(0, nstates_id)
+
+delta_a = 0.01 # productivity difference in bad and good states
 a = np.array((1-delta_a, 1+delta_a))
 prob = np.array(([0.525, 0.35, 0.03125, 0.09375],
                  [0.038889, 0.836111, 0.002083, 0.122917],
