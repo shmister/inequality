@@ -5,13 +5,18 @@ import time as time
 from params import *
 from utils import *
 from envment import *
+from individual import *
 from tests import *
 
 def main():
     print("Start Main")
 
     env_params = gen_env_params()
-    update_environment(B=B, k_prime=[0,9], env_params= env_params)
+    env_params_updated = update_environment(B=B, env_params= env_params)
+
+    individual_optimization(env_params_updated['k_grid'], beta, gamma, env_params_updated)
+
+    print(len(env_params_updated), len(env_params))
 
 
 

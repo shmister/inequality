@@ -37,18 +37,28 @@ def gen_env_params():
     wealth = irate*k_i + (wage*e_i)*l_bar + mu*(wage*(1-e_i))+(1-delta)*k_i-mu*(wage*(1-L)/L)*e_i
 
     # dictionary
-    env_params = {'k_grid': k, 'K_grid': km, 'id_shocks': emp_shocks, 'agg_shocks': agg_shocks, 'ag': ag, 'K': K}
+    env_params = {'a': a, 'e': e, 'u': u, 'delta': delta,
+                  'ngridk': ngridk, 'ngridkm': ngridkm, 'k_grid': k, 'km_grid': km,
+                  'n': n, 'nstates_ag': nstates_ag, 'nstates_id': nstates_id,
+                  'id_shocks': emp_shocks, 'agg_shocks': agg_shocks,
+                  'ag': ag, 'K': K, 'replacement': replacement, 'P': P, 'K_ss': K_ss, 'wealth': wealth}
 
     return env_params
 
 
-def update_environment(B, k_prime, env_params):
+def update_environment(B, env_params):
 
-    ag, K = env_params['ag'], env_params['K']
+    a, e, u, ag, K = env_params['a'], env_params['e'], env_params['u'], env_params['ag'], env_params['K']
 
     K_prime = np.clip(np.exp(B[ag, 0] + B[ag, 1]*np.log(K)), km_min, km_max)
 
-    environment = {''}
+    irate = alpha*a*((K_prime[:, np.newaxis]/(e.T*l_bar))**(alpha-1))
+    wage = (1-alpha)*a*((K_prime[:, np.newaxis]/(e.T*l_bar))**alpha)
 
+    tax_rate = mu*wage*u/(1-u)
+    tax = tax_rate[:,:, np.newaxis]*np.array([0,1])
 
-    return environment
+    env_params_updated = env_params.copy()
+    env_params_updated.update({'K_prime': K, 'irate': irate, 'wage': wage, 'tax': tax})
+
+    return env_params_updated
