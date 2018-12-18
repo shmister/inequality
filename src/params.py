@@ -8,16 +8,16 @@ mu = 0.15  # unemployment benefits as a share of the wage
 l_bar = 1/0.9  # time endowment; normalizes labor supply to 1 in bad state
 
 
-N = 10000  # number of agents for stochastic simulation
-J = 1000  # number of grid points for stochastic simulation
-T = 1000 # number of time periods for stochastic simulation
+Nagents = 10000  # number of agents for stochastic simulation
+# J = 1000  # number of grid points for stochastic simulation
+Tperiods = 1000 # number of time periods for stochastic simulation
 
 k_min = 0 # min capital
 k_max = 1000 # max capital
 ngridk = 100 # number of grid points
 tau = 7 # fine grid parameter
 
-t_skip = 100 # skip periods
+Tperiods_skip = 100 # skip periods
 
 km_min = 30 # aggregate capital min grid point
 km_max = 50 # aggregate capital max grid point
@@ -29,14 +29,13 @@ nstates_ag = 2    # number of states for the aggregate shock
 
 
 ur_b = 0.1        # unemployment rate in a bad aggregate state
-er_b = (1-ur_b)   # employment rate in a bad aggregate state
 ur_g = 0.04       # unemployment rate in a good aggregate state
-er_g = (1-ur_g)   # employment rate in a good aggregate state
+
 
 #epsilon = np.arange(0, nstates_id)
 
 delta_a = 0.01 # productivity difference in bad and good states
-a = np.array((1-delta_a, 1+delta_a))
+
 prob = np.array(([0.525, 0.35, 0.03125, 0.09375],
                  [0.038889, 0.836111, 0.002083, 0.122917],
                  [0.09375, 0.03125, 0.291667, 0.583333],

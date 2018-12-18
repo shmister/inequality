@@ -4,25 +4,15 @@ import time as time
 
 from params import *
 from utils import *
-
+from envment import *
 from tests import *
 
 def main():
     print("Start Main")
 
-    # generate individual capital grid
-    k = generate_grid(k_min, k_max, ngridk, tau)
+    env_params = gen_env_params()
+    update_environment(B=B, k_prime=[0,9], env_params= env_params)
 
-    # generate aggregate grid
-    km = generate_grid(k_min, km_max, ngridkm)
-
-
-    emp_shocks, agg_shocks = generate_shocks(trans_mat= prob, N= 100, T= 110000, Tskip= t_skip)
-    # emp_shocks, agg_shocks = gen_shocks(prob= prob, N= 100, T= 110000)
-    print(emp_shocks.shape, agg_shocks.shape)
-
-    test1(agg_shocks, emp_shocks, T)
-    print(prob)
 
 
 
