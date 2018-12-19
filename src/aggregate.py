@@ -21,8 +21,8 @@ def aggregate_st(k_cross, k_prime, env_params):
         distribution of capital
         """
         km_series[t] = np.mean(k_cross)
-        km_series[t] = np.minimum(km_series[t], km_max)
-        km_series[t] = np.maximum(km_series[t], km_min)
+        km_series[t] = np.clip(km_series[t], km_min, km_max)
+
         """
         To find km_series[t+1], we should compute a new cross sectional distribution
         at t+1.
@@ -49,8 +49,7 @@ def aggregate_st(k_cross, k_prime, env_params):
                             xi= interp_points)
 
         # restrict k_cross to be within [k_min, k_max]
-        k_cross_n = np.minimum(k_cross_n, k_max)
-        k_cross_n = np.maximum(k_cross_n, k_min)
+        k_cross_n = np.clip(k_cross_n, k_min, k_max)
         k_cross = k_cross_n
 
     return km_series, k_cross
