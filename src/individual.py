@@ -1,6 +1,6 @@
 import numpy as np
 
-from params import criter_k, k_min, k_max, update_k
+from params import *
 import statsmodels.api as sm
 from scipy.optimize import  brentq, root
 from scipy.interpolate import RectBivariateSpline, interpn
@@ -8,8 +8,8 @@ from scipy.interpolate import RectBivariateSpline, interpn
 
 def individual_optimization(k_prime, beta, gamma, env_params):
 
-    n, nstates_ag, nstates_id, delta, P = env_params['n'], env_params['nstates_ag'], env_params['nstates_id'], env_params['delta'], env_params['P']
-    ngridk, ngridkm, k, km = env_params['ngridk'], env_params['ngridkm'], env_params['k_grid'], env_params['km_grid']
+    n, P = env_params['n'], env_params['P']
+    k, km =  env_params['k_grid'], env_params['km_grid']
     K_prime, wage, tax, irate, replacement, wealth = env_params['K_prime'], env_params['wage'], env_params['tax'], env_params['irate'], env_params['replacement'], env_params['wealth']
 
 

@@ -1,9 +1,7 @@
 
 import numpy as np
 
-from params import k_min, k_max, ngridk, tau, km_min, km_max, ngridkm, prob, Nagents, Tperiods, Tperiods_skip, \
-    delta_a, alpha, delta, ur_b, ur_g, mu, l_bar, nstates_ag, nstates_id, \
-    beta
+from params import *
 from utils import generate_shocks, generate_grid
 
 
@@ -20,6 +18,7 @@ def gen_env_params():
     a = np.array((1-delta_a, 1+delta_a))
     er_b, er_g = (1-ur_b), (1-ur_g)
 
+
     K_ss = ((1/beta-(1-delta))/alpha)**(1/(alpha-1))
     P = np.tile(prob, [ngridk*ngridkm, 1])
 
@@ -29,6 +28,7 @@ def gen_env_params():
 
     n = ngridk*ngridkm*nstates_ag*nstates_id
     (k_indices, km_indices, ag, e_i) = np.unravel_index(np.arange(n), (ngridk, ngridkm, nstates_ag, nstates_id))
+    epsilon = np.arange(0, nstates_id)
 
     Z, L, K, k_i = a[ag], e[ag], km[km_indices], k[k_indices]
 
@@ -37,9 +37,9 @@ def gen_env_params():
     wealth = irate*k_i + (wage*e_i)*l_bar + mu*(wage*(1-e_i))+(1-delta)*k_i-mu*(wage*(1-L)/L)*e_i
 
     # dictionary
-    env_params = {'a': a, 'e': e, 'u': u, 'delta': delta,
-                  'ngridk': ngridk, 'ngridkm': ngridkm, 'k_grid': k, 'km_grid': km,
-                  'n': n, 'nstates_ag': nstates_ag, 'nstates_id': nstates_id,
+    env_params = {'a': a, 'e': e, 'u': u,
+                  'k_grid': k, 'km_grid': km,
+                  'n': n, 'epsilon': epsilon,
                   'id_shocks': emp_shocks, 'agg_shocks': agg_shocks,
                   'ag': ag, 'K': K, 'replacement': replacement, 'P': P, 'K_ss': K_ss, 'wealth': wealth}
 

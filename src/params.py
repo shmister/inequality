@@ -47,4 +47,4 @@ criter_k = 1e-8
 criter_B = 1e-8
 update_k = 0.77
 update_B = 0.3
-B = np.array((0,1))*np.ones((nstates_ag, 1))
+B_init = np.array((0,1))*np.ones((nstates_ag, 1))

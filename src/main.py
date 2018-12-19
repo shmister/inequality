@@ -12,7 +12,7 @@ def main():
     print("Start Main")
 
     env_params = gen_env_params()
-    env_params_updated = update_environment(B=B, env_params= env_params)
+    env_params_updated = update_environment(B=B_init, env_params= env_params)
 
     individual_optimization(env_params_updated['k_grid'], beta, gamma, env_params_updated)
 
