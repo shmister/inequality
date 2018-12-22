@@ -1,13 +1,8 @@
-import numpy as np
-from scipy.interpolate import RectBivariateSpline, interpn
-import pandas as pd
 from params import *
 import numpy as np
-from numpy.random import randn
-import statsmodels.api as sm
-from scipy.optimize import  brentq, root
-from scipy.interpolate import RectBivariateSpline, interpn
 np.set_printoptions(precision=4, suppress=True)
+
+from scipy.interpolate import RectBivariateSpline, interpn
 
 
 def individual_optimization(beta, gamma, env_params):

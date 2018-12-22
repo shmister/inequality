@@ -1,15 +1,10 @@
+from params import ur_b
+
 import numpy as np
+np.set_printoptions(precision=4, suppress=True)
 import quantecon as qe
 import time as tm
-np.set_printoptions(precision=4, suppress=True)
-import numpy as np
-from numpy.random import randn
-import statsmodels.api as sm
-from scipy.optimize import  brentq, root
-from scipy.interpolate import RectBivariateSpline, interpn
-np.set_printoptions(precision=4, suppress=True)
 
-from params import ur_b
 
 def p_agg(p_agg_ind):
     p00 = p_agg_ind[0,0] + p_agg_ind[0,1]

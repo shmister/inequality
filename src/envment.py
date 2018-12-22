@@ -1,14 +1,10 @@
-import pandas as pd
-import statsmodels.api as sm
-
 from params import *
 from utils import generate_shocks, generate_shocks0, generate_grid
+
 import numpy as np
-from numpy.random import randn
-import statsmodels.api as sm
-from scipy.optimize import  brentq, root
-from scipy.interpolate import RectBivariateSpline, interpn
 np.set_printoptions(precision=4, suppress=True)
+import pandas as pd
+
 
 def init_env_params():
     # generate individual capital grid

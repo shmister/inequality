@@ -1,16 +1,8 @@
 from envment import *
 from individual import *
 from aggregate import *
-from tests import *
-import pandas as pd
-import numpy as np
-from numpy.random import randn
-import statsmodels.api as sm
-from scipy.optimize import  brentq, root
-from scipy.interpolate import RectBivariateSpline, interpn
-# np.set_printoptions(precision=4, suppress=True)
 
-import sys
+import numpy as np
 
 
 def main():
