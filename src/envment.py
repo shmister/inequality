@@ -4,6 +4,7 @@ from utils import generate_shocks, generate_shocks0, generate_grid
 import numpy as np
 np.set_printoptions(precision=4, suppress=True)
 import pandas as pd
+import statsmodels.api as sm
 
 
 def init_env_params():
