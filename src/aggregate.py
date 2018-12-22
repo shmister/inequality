@@ -1,21 +1,23 @@
-import numpy as np
-
 from scipy.interpolate import interpn
-
 
 from utils import *
 from params import *
+import numpy as np
+from numpy.random import randn
+import statsmodels.api as sm
+from scipy.optimize import  brentq, root
+from scipy.interpolate import RectBivariateSpline, interpn
+np.set_printoptions(precision=4, suppress=True)
 
-
-def aggregate_st(k_cross, k_prime, env_params):
+def aggregate(k_prime, env_params):
 
     id_shocks, agg_shocks = env_params['id_shocks'], env_params['agg_shocks']
-    k, km = env_params['km_grid'], env_params['k_grid']
+    k, km = env_params['k_grid'], env_params['km_grid']
     epsilon = env_params['epsilon']
+    k_cross = env_params['k_cross']
+    km_series = np.zeros((Tperiods+Tperiods_skip,1))
 
-    km_series = np.zeros((Tperiods,1))
-
-    for t in range(Tperiods):
+    for t in range(Tperiods+Tperiods_skip):
         """
         find t-th obs. by computing mean of t-th period cross sectional
         distribution of capital
@@ -47,7 +49,6 @@ def aggregate_st(k_cross, k_prime, env_params):
         k_cross_n = interpn(points=(k, epsilon),
                             values= k_prime_t4.reshape(ngridk, nstates_id),
                             xi= interp_points)
-
         # restrict k_cross to be within [k_min, k_max]
         k_cross_n = np.clip(k_cross_n, k_min, k_max)
         k_cross = k_cross_n

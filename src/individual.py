@@ -1,23 +1,23 @@
 import numpy as np
-
+from scipy.interpolate import RectBivariateSpline, interpn
+import pandas as pd
 from params import *
+import numpy as np
+from numpy.random import randn
 import statsmodels.api as sm
 from scipy.optimize import  brentq, root
 from scipy.interpolate import RectBivariateSpline, interpn
+np.set_printoptions(precision=4, suppress=True)
 
 
-def individual_optimization(k_prime, beta, gamma, env_params):
+def individual_optimization(beta, gamma, env_params):
 
     n, P = env_params['n'], env_params['P']
-    k, km =  env_params['k_grid'], env_params['km_grid']
-    K_prime, wage, tax, irate, replacement, wealth = env_params['K_prime'], env_params['wage'], env_params['tax'], env_params['irate'], env_params['replacement'], env_params['wealth']
+    k, km, k_prime =  env_params['k_grid'], env_params['km_grid'], env_params['k_prime']
+    K_prime, wage, tax, irate, replacement, wealth = env_params['Kprime'], env_params['wage'], env_params['tax'], env_params['irate'], env_params['replacement'], env_params['wealth']
+    # print("Kprime mean")
+    # print(np.mean(K_prime))
 
-
-    k_prime = 0.9*k
-    n = ngridk*ngridkm*nstates_ag*nstates_id
-    k_prime = k_prime.reshape((len(k_prime), 1, 1, 1))
-    k_prime = np.ones((ngridk, ngridkm, nstates_ag, nstates_id))*k_prime
-    k_prime = k_prime.reshape(n)
 
 
     dif_k = 1

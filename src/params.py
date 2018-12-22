@@ -1,4 +1,12 @@
 import numpy as np
+np.set_printoptions(precision=4, suppress=True)
+import numpy as np
+from numpy.random import randn
+import statsmodels.api as sm
+from scipy.optimize import  brentq, root
+from scipy.interpolate import RectBivariateSpline, interpn
+np.set_printoptions(precision=4, suppress=True)
+
 
 beta = 0.99  # discount factor
 gamma = 1  # utility function parameter

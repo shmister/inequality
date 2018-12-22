@@ -1,34 +1,34 @@
-import numpy as np
-import pandas as pd
-import time as time
-
-from params import *
-from utils import *
 from envment import *
 from individual import *
+from aggregate import *
 from tests import *
+import pandas as pd
+import numpy as np
+from numpy.random import randn
+import statsmodels.api as sm
+from scipy.optimize import  brentq, root
+from scipy.interpolate import RectBivariateSpline, interpn
+# np.set_printoptions(precision=4, suppress=True)
+
+import sys
+
 
 def main():
     print("Start Main")
 
-    env_params = gen_env_params()
-    env_params_updated = update_environment(B=B_init, env_params= env_params)
+    env_params = init_env_params()
+    B_new, env_params_updated = update_environment(env_params, B_init)
 
-    individual_optimization(env_params_updated['k_grid'], beta, gamma, env_params_updated)
+    print(np.sum(env_params_updated['id_shocks']))
+    print(np.sum(env_params_updated['agg_shocks']))
 
-    print(len(env_params_updated), len(env_params))
+    for i in range(10):
 
+        k_prime_new, c = individual_optimization(beta, gamma, env_params_updated)
+        km_series, k_cross_new = aggregate(k_prime_new, env_params_updated)
 
-
-
-
-
-
-
-
-
-
-
+        B_new, env_params_updated = update_environment(env_params, B_new, k_prime_new=k_prime_new, k_cross_new=k_cross_new, km_ts=km_series)
+        print("diffB", env_params_updated['diffB'])
 
 
 

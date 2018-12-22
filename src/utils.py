@@ -1,6 +1,13 @@
 import numpy as np
 import quantecon as qe
 import time as tm
+np.set_printoptions(precision=4, suppress=True)
+import numpy as np
+from numpy.random import randn
+import statsmodels.api as sm
+from scipy.optimize import  brentq, root
+from scipy.interpolate import RectBivariateSpline, interpn
+np.set_printoptions(precision=4, suppress=True)
 
 from params import ur_b
 
@@ -19,10 +26,9 @@ def generate_grid(k_min, k_max, n_points, tau=0):
         return np.linspace(k_min, k_max, n_points)
 
 
-def generate_shocks(trans_mat, N, T, Tskip=0):
+def generate_shocks(trans_mat, N, T):
     np.random.seed(int(round(tm.time())))
     # np.random.seed(0)
-    T += Tskip
 
     agg_trans_mat = p_agg(trans_mat)
     emp_trans_mat = trans_mat/np.kron(agg_trans_mat, np.ones((2, 2)))
@@ -41,4 +47,40 @@ def generate_shocks(trans_mat, N, T, Tskip=0):
         curr_emp_trans_probs =  np.where(emp_shocks[t-1, :]==0.0, curr_emp_trans_mat[0,0], curr_emp_trans_mat[1,1])
         emp_shocks[t, :] = np.where(curr_emp_trans_probs>draws[t-1, :], emp_shocks[t-1, :], 1 - emp_shocks[t-1, :])
 
-    return emp_shocks[Tskip:, ], agg_shocks[Tskip:]
+    return emp_shocks, agg_shocks
+
+
+def generate_shocks0(trans_mat, N, T):
+
+    prob= trans_mat
+
+    ag_shock = np.zeros((T, 1))
+    id_shock = np.zeros((T, N))
+    np.random.seed(0)
+
+    # ag_shock = np.zeros((T, 1))
+    # Transition probabilities between aggregate states
+    prob_ag = np.zeros((2, 2))
+    prob_ag[0, 0] = prob[0, 0]+prob[0, 1]
+    prob_ag[1, 0] = 1-prob_ag[0, 0] # bad state to good state
+    prob_ag[1, 1] = prob[2, 2]+prob[2, 3]
+    prob_ag[0, 1] = 1-prob_ag[1, 1]
+
+    P = prob/np.kron(prob_ag, np.ones((2, 2)))
+    # generate aggregate shocks
+    mc = qe.MarkovChain(prob_ag)
+    ag_shock = mc.simulate(ts_length=T, init=0)  # start from bad state
+    # generate idiosyncratic shocks for all agents in the first period
+    draw = np.random.uniform(size=N)
+    id_shock[0, :] = draw>ur_b #set state to good if probability exceeds ur_b
+
+    # generate idiosyncratic shocks for all agents starting in second period
+    draw = np.random.uniform(size=(T-1, N))
+    for t in range(1, T):
+        # Fix idiosyncratic itransition matrix conditional on aggregate state
+        transition = P[2*ag_shock[t-1]: 2*ag_shock[t-1]+2, 2*ag_shock[t]: 2*ag_shock[t]+2]
+        transition_prob = [transition[int(id_shock[t-1, i]), int(id_shock[t-1, i])] for i in range(N)]
+        check = transition_prob>draw[t-1, :] #sign whether to remain in current state
+        id_shock[t, :] = id_shock[t-1, :]*check + (1-id_shock[t-1, :])*(1-check)
+
+    return id_shock, ag_shock
