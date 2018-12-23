@@ -82,7 +82,6 @@ def update_environment(env_params, B_coef, k_cross_new=None, km_ts=None):
         k_cross = k_cross_new
         B_updated = B_mat*update_B + B_coef*(1-update_B)
 
-
     Kprime = np.clip(np.exp(B_updated[ag, 0] + B_updated[ag, 1]*np.log(K)), km_min, km_max)
     irate = alpha*a*((Kprime[:, np.newaxis]/(e.T*l_bar))**(alpha-1))
     wage = (1-alpha)*a*((Kprime[:, np.newaxis]/(e.T*l_bar))**alpha)
