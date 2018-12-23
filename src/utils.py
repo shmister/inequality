@@ -4,6 +4,8 @@ import numpy as np
 np.set_printoptions(precision=4, suppress=True)
 import quantecon as qe
 import time as tm
+from scipy.interpolate import interp1d
+import pandas as pd
 
 
 def p_agg(p_agg_ind):
@@ -79,3 +81,20 @@ def generate_shocks0(trans_mat, N, T):
         id_shock[t, :] = id_shock[t-1, :]*check + (1-id_shock[t-1, :])*(1-check)
 
     return id_shock, ag_shock
+
+
+def lorenz_points(vals_distribution, weights=None):
+
+    if weights is None:
+        weights = np.ones(len(vals_distribution))*1/len(vals_distribution)
+
+    df = pd.DataFrame({'values': vals_distribution, 'weights': weights}).sort_values('values', ascending= True)
+    df['temp'] = df['weights']*df['values']
+
+    cum_dist = np.cumsum(df['weights'])/np.sum(df['weights']) # cumulative probability distribution
+    cum_data = np.cumsum(df['temp'])/np.sum(df['temp']) # cumulative ownership shares
+
+    lorenz_x = np.linspace(0.0,1.0,100)
+    lorenz_y = interp1d(cum_dist,cum_data,bounds_error=False,assume_sorted=True)(lorenz_x)
+
+    return lorenz_x, lorenz_y

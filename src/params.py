@@ -1,6 +1,7 @@
 import numpy as np
 np.set_printoptions(precision=4, suppress=True)
 
+wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
 beta = 0.99  # discount factor
 gamma = 1  # utility function parameter

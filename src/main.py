@@ -26,10 +26,9 @@ def main():
 
         diff_B = env_params_updated['diffB']
 
-    fig, ax = plt.subplots(figsize=(9, 6))
-    ax.hist(k_cross_new, label='Cross sectional capital distribution', bins=50)
-    accuracy_figure(km_series, env_params_updated['agg_shocks'], B_new)
+    plot_accuracy(km_series, env_params_updated['agg_shocks'], B_new)
     plot_policy(k_prime_new, km_series, env_params_updated)
+    plot_lorenz(k_cross_new)
 
 
 if __name__== "__main__":

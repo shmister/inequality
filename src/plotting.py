@@ -1,11 +1,13 @@
 from params import *
+from utils import *
 
 import matplotlib.pyplot as plt
 from itertools import cycle
-from scipy.interpolate import RectBivariateSpline
+from scipy.interpolate import RectBivariateSpline, interp1d
+import pandas as pd
 
 
-def accuracy_figure(km_ts, agg_shocks, B):
+def plot_accuracy(km_ts, agg_shocks, B):
     T = len(km_ts)
     km_alm = np.zeros((T))
     km_alm[0] = km_ts[0]
@@ -41,4 +43,24 @@ def plot_policy(k_prime, km_ts, env_params):
                 ax[m, n].plot(x_vals, y_vals, label='Aggregate state = %s, Employment = %s' % (i,j))
                 ax[m, n].set_xlabel('Capital accumulation: percentile = %s' % (percentiles[a]))
                 ax[m, n].legend(loc='best', fontsize=8)
+    plt.show()
+
+
+def plot_lorenz(k_cross):
+
+    scf_df = pd.read_csv(wd_folder + 'data/scf_data.pkl')
+    scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
+
+    x0, y0 = lorenz_points(vals_distribution= k_cross)
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.plot(x0, y0, label='Model Distribution')
+    ax.plot(scf_x, scf_y, label='SCF Data')
+    ax.set_xlabel('Population Share')
+    ax.set_ylabel('Wealth')
+    ax.legend(loc='best')
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.hist(k_cross, label='Cross sectional capital distribution', bins=50)
     plt.show()
