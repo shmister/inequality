@@ -24,6 +24,8 @@ def accuracy_figure(km_ts, agg_shocks, B):
 def plot_policy(k_prime, km_ts, env_params):
     k, km = env_params['k_grid'], env_params['km_grid']
 
+    k_prime = k_prime.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
+
     percentiles = [0.1, 0.25, 0.75, 0.9]
     km_percentiles = np.percentile(km_ts, percentiles)
     km_cycler = cycle(km_percentiles)
