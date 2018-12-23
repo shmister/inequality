@@ -3,7 +3,6 @@ from params import *
 
 from scipy.interpolate import interpn
 import numpy as np
-np.set_printoptions(precision=4, suppress=True)
 
 
 def aggregate(k_prime, env_params):

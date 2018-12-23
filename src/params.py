@@ -1,5 +1,4 @@
 import numpy as np
-np.set_printoptions(precision=4, suppress=True)
 
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
@@ -47,7 +46,7 @@ prob = np.array(([0.525, 0.35, 0.03125, 0.09375],
 
 dif_B = 10**10 # difference between coefficients B of ALM on succ. iter.
 criter_k = 1e-8
-criter_B = 1e-8
+criter_B = 1e-3
 update_k = 0.77
 update_B = 0.3
 B_init = np.array((0,1))*np.ones((nstates_ag, 1))

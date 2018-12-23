@@ -1,7 +1,6 @@
 from params import ur_b
 
 import numpy as np
-np.set_printoptions(precision=4, suppress=True)
 import quantecon as qe
 import time as tm
 from scipy.interpolate import interp1d

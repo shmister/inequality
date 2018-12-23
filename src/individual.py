@@ -1,19 +1,14 @@
 from params import *
 import numpy as np
-np.set_printoptions(precision=4, suppress=True)
 
-from scipy.interpolate import RectBivariateSpline, interpn
+from scipy.interpolate import RectBivariateSpline
 
 
-def individual_optimization(beta, gamma, env_params):
+def individual_optimization(beta, gamma, k_prime, env_params):
 
     n, P = env_params['n'], env_params['P']
-    k, km, k_prime =  env_params['k_grid'], env_params['km_grid'], env_params['k_prime']
+    k, km, =  env_params['k_grid'], env_params['km_grid']
     K_prime, wage, tax, irate, replacement, wealth = env_params['Kprime'], env_params['wage'], env_params['tax'], env_params['irate'], env_params['replacement'], env_params['wealth']
-    # print("Kprime mean")
-    # print(np.mean(K_prime))
-
-
 
     dif_k = 1
     while dif_k > criter_k:

@@ -2,7 +2,6 @@ from params import *
 from utils import generate_shocks, generate_shocks0, generate_grid
 
 import numpy as np
-np.set_printoptions(precision=4, suppress=True)
 import pandas as pd
 import statsmodels.api as sm
 
@@ -60,14 +59,14 @@ def init_kprime_kcross(env_params):
     return k_prime, k_cross
 
 
-def update_environment(env_params, B_coef, k_prime_new=None, k_cross_new=None, km_ts=None):
+def update_environment(env_params, B_coef, k_cross_new=None, km_ts=None):
 
     a, e, u, ag, K = env_params['a'], env_params['e'], env_params['u'], env_params['ag'], env_params['K']
     agg_shocks = env_params['agg_shocks']
 
     if km_ts is None:
 
-        k_prime, k_cross = init_kprime_kcross(env_params)
+        _, k_cross = init_kprime_kcross(env_params)
         diff_B, B_updated = 1000, B_coef
 
     else:
@@ -80,8 +79,9 @@ def update_environment(env_params, B_coef, k_prime_new=None, k_cross_new=None, k
         B_mat = np.array((B_new[0], B_new[2], B_new[0]+B_new[1], B_new[2]+B_new[3])).reshape((2, 2))
         diff_B = np.linalg.norm(B_mat- B_coef)
 
-        k_prime, k_cross = k_prime_new, k_cross_new
+        k_cross = k_cross_new
         B_updated = B_mat*update_B + B_coef*(1-update_B)
+
 
     Kprime = np.clip(np.exp(B_updated[ag, 0] + B_updated[ag, 1]*np.log(K)), km_min, km_max)
     irate = alpha*a*((Kprime[:, np.newaxis]/(e.T*l_bar))**(alpha-1))
@@ -91,7 +91,7 @@ def update_environment(env_params, B_coef, k_prime_new=None, k_cross_new=None, k
     tax = tax_rate[:,:, np.newaxis]*np.array([0,1])
 
     env_params_updated = env_params.copy()
-    env_params_updated.update({'Kprime': Kprime, 'irate': irate, 'wage': wage, 'tax': tax, 'k_prime': k_prime, 'k_cross': k_cross, 'diffB': diff_B})
+    env_params_updated.update({'Kprime': Kprime, 'irate': irate, 'wage': wage, 'tax': tax, 'k_cross': k_cross, 'diffB': diff_B})
 
     return B_updated, env_params_updated
 
