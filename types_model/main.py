@@ -5,9 +5,10 @@ from types_model.plotting import *
 
 from types_model.params import *
 
+import time
 
 def main():
-    print("Start Main")
+    print("Initiating environment. ", print_time(time.time()))
 
     env_params = init_env_params()
     B_new, env_params_updated = update_environment(env_params, B_init)
@@ -20,10 +21,13 @@ def main():
 
     while diff_B > criter_B:
 
+        print("Solving individual optimization.", print_time(time.time()))
         k_primeL_new, k_primeM_new, k_primeH_new = types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated)
 
+        print("Solving for aggregates.", print_time(time.time()))
         km_series, k_cross_new, k_crossL, k_crossM, k_crossH = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
 
+        print("Updating environment.", print_time(time.time()))
         B_new, env_params_updated = update_environment(env_params, B_new, k_cross_new=k_cross_new, km_ts=km_series)
         print("diffB", env_params_updated['diffB'])
 

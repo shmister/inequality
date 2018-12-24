@@ -18,14 +18,14 @@ Tperiods = 5000 # number of time periods for stochastic simulation
 
 k_min = 0 # min capital
 k_max = 1000 # max capital
-ngridk = 100 # number of grid points
+ngridk = 200 # number of grid points
 tau = 7 # fine grid parameter
 
 Tperiods_skip = 300 # skip periods
 
 km_min = 30 # aggregate capital min grid point
 km_max = 50 # aggregate capital max grid point
-ngridkm = 4 # aggregate capital number of grid points
+ngridkm = 10 # aggregate capital number of grid points
 
 
 nstates_id = 2    # number of states for the idiosyncratic shock

@@ -5,7 +5,7 @@ import quantecon as qe
 import time as tm
 from scipy.interpolate import interp1d
 import pandas as pd
-
+import time
 
 def p_agg(p_agg_ind):
     p00 = p_agg_ind[0,0] + p_agg_ind[0,1]
@@ -109,3 +109,9 @@ def lorenz_points(vals_distribution, weights=None):
     lorenz_y = interp1d(cum_dist,cum_data,bounds_error=False,assume_sorted=True)(lorenz_x)
 
     return lorenz_x, lorenz_y
+
+
+def print_time(timestamp):
+    hours, rem = divmod(timestamp, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
