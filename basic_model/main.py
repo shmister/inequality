@@ -19,7 +19,7 @@ def main():
 
     while diff_B > criter_B:
 
-        k_prime_new, c = individual_optimization(beta, gamma, k_prime, env_params_updated)
+        k_prime_new, c = individual_optimization(k_prime, env_params_updated)
 
         km_series, k_cross_new = aggregate(k_prime_new, env_params_updated)
 

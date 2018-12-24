@@ -26,12 +26,12 @@ def generate_types_shocks(trans_mat, N, T):
     #np.random.seed(int(round(tm.time())))
     #np.random.seed(0)
 
-    mc = qe.MarkovChain(trans_mat)
+    mc = qe.MarkovChain(trans_mat, ['L', 'M', 'H'])
     types_shocks = mc.simulate(ts_length=T*N).reshape(T, N)
 
-    #stationry_distr = mc.stationary_distributions
+    stat_dist = mc.stationary_distributions
 
-    return types_shocks
+    return types_shocks, stat_dist
 
 
 def generate_shocks(trans_mat, N, T):

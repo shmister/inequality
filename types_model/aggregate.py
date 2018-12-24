@@ -5,9 +5,9 @@ from scipy.interpolate import interpn
 import numpy as np
 
 
-def aggregate(k_prime, env_params):
+def aggregate(k_primeL, k_primeM, k_primeH, env_params):
 
-    id_shocks, agg_shocks = env_params['id_shocks'], env_params['agg_shocks']
+    id_shocks, agg_shocks, types_shocks = env_params['id_shocks'], env_params['agg_shocks'], env_params['types_shocks']
     k, km = env_params['k_grid'], env_params['km_grid']
     epsilon = env_params['epsilon']
     k_cross = env_params['k_cross']
@@ -33,18 +33,42 @@ def aggregate(k_prime, env_params):
         interp_points = np.rollaxis(interp_points, 0, 5)
         interp_points = interp_points.reshape((len(k)*len(epsilon), 4))
 
-        k_prime_t4 = interpn(points=(k, km, epsilon, epsilon),
-                             values=k_prime.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
+
+        k_primeL_t4 = interpn(points=(k, km, epsilon, epsilon),
+                             values=k_primeL.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
                              xi=interp_points).reshape(ngridk, nstates_id)
+        k_primeM_t4 = interpn(points=(k, km, epsilon, epsilon),
+                              values=k_primeM.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
+                              xi=interp_points).reshape(ngridk, nstates_id)
+        k_primeH_t4 = interpn(points=(k, km, epsilon, epsilon),
+                              values=k_primeH.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
+                              xi=interp_points).reshape(ngridk, nstates_id)
         # 4-dimensional capital function at time t is obtained by fixing known
         # km_series[t] and ag_shock
-        interp_points = np.vstack((k_cross, id_shocks[t,:])).T
+
+        current_types_shocks = types_shocks[t, :]
+        interp_pointsL = np.vstack((k_cross[current_types_shocks=='L'], id_shocks[t,:][current_types_shocks=='L'])).T
+        interp_pointsM = np.vstack((k_cross[current_types_shocks=='M'], id_shocks[t,:][current_types_shocks=='M'])).T
+        interp_pointsH = np.vstack((k_cross[current_types_shocks=='H'], id_shocks[t,:][current_types_shocks=='H'])).T
+
+
         """
         given k_cross and idiosyncratic shocks, compute k_cross_n
         """
-        k_cross_n = interpn(points=(k, epsilon),
-                            values= k_prime_t4.reshape(ngridk, nstates_id),
-                            xi= interp_points)
+        k_crossL_n = interpn(points=(k, epsilon),
+                            values= k_primeL_t4.reshape(ngridk, nstates_id),
+                            xi= interp_pointsL)
+
+        k_crossM_n = interpn(points=(k, epsilon),
+                             values= k_primeM_t4.reshape(ngridk, nstates_id),
+                             xi= interp_pointsM)
+
+        k_crossH_n = interpn(points=(k, epsilon),
+                             values= k_primeH_t4.reshape(ngridk, nstates_id),
+                             xi= interp_pointsH)
+
+        k_cross_n = np.concatenate([k_crossL_n, k_crossM_n, k_crossH_n])
+
         # restrict k_cross to be within [k_min, k_max]
         k_cross_n = np.clip(k_cross_n, k_min, k_max)
         k_cross = k_cross_n

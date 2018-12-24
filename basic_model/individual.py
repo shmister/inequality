@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import RectBivariateSpline
 
 
-def individual_optimization(beta, gamma, k_prime, env_params):
+def individual_optimization(k_prime, env_params):
 
     n, P = env_params['n'], env_params['P']
     k, km, =  env_params['k_grid'], env_params['km_grid']

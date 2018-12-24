@@ -1,5 +1,5 @@
 from types_model.params import *
-from types_model.utils import generate_shocks, generate_shocks0, generate_grid
+from types_model.utils import generate_shocks, generate_shocks0, generate_grid, generate_types_shocks
 
 import numpy as np
 import pandas as pd
@@ -16,10 +16,14 @@ def init_env_params():
     # generate idiosyncratic and aggregate shocks
     emp_shocks, agg_shocks = generate_shocks0(trans_mat= prob, N= Nagents, T= Tperiods+Tperiods_skip)
 
+    # generate idiosyncratic and aggregate shocks
+    types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
+    beta_avg = np.dot(stat_dist, np.array([betaL, betaM, betaH]))
+
     a = np.array((1-delta_a, 1+delta_a))
     er_b, er_g = (1-ur_b), (1-ur_g)
 
-    k_ss = ((1/beta-(1-delta))/alpha)**(1/(alpha-1))
+    k_ss = ((1/beta_avg-(1-delta))/alpha)**(1/(alpha-1))
     P = np.tile(prob, [ngridk*ngridkm, 1])
 
     e = np.array((er_b, er_g))
@@ -40,7 +44,7 @@ def init_env_params():
     env_params = {'a': a, 'e': e, 'u': u,
                   'k_grid': k, 'km_grid': km,
                   'n': n, 'epsilon': epsilon,
-                  'id_shocks': emp_shocks, 'agg_shocks': agg_shocks,
+                  'id_shocks': emp_shocks, 'agg_shocks': agg_shocks, 'types_shocks': types_shocks,
                   'ag': ag, 'K': K, 'replacement': replacement, 'P': P, 'K_ss': k_ss, 'wealth': wealth, 'B': B_init}
 
     return env_params

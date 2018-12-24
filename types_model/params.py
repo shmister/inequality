@@ -2,7 +2,9 @@ import numpy as np
 
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
-betaL, betaM, betaH = 0.98013333, 0.9858, 0.99146667  # discount factor
+# betaL, betaM, betaH = 0.98013333, 0.9858, 0.99146667  # discount factor
+betaL, betaM, betaH = 0.9858, 0.9894, 0.9930 # discount factor
+
 gammaL, gammaM, gammaH = 1, 1, 1  # utility function parameter
 alpha = 0.36  # share of capital in production function
 delta = 0.025  # depreciation rate
@@ -51,6 +53,6 @@ prob_type = np.array(([0.995, 0.005, 0.0],
 dif_B = 10**10 # difference between coefficients B of ALM on succ. iter.
 criter_k = 1e-8
 criter_B = 1e-8
-update_k = 0.77
+update_k = 0.7
 update_B = 0.3
 B_init = np.array((0,1))*np.ones((nstates_ag, 1))

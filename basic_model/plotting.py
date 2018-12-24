@@ -52,6 +52,7 @@ def plot_lorenz(k_cross):
     scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
 
     x0, y0 = lorenz_points(vals_distribution= k_cross)
+    pd.DataFrame({'basic_x0': x0, 'basic_y0': y0}).to_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(x0, y0, label='Model Distribution')
