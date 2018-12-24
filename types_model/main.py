@@ -22,7 +22,7 @@ def main():
 
         k_primeL_new, k_primeM_new, k_primeH_new = types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated)
 
-        km_series, k_cross_new = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
+        km_series, k_cross_new, k_crossL, k_crossM, k_crossH = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
 
         B_new, env_params_updated = update_environment(env_params, B_new, k_cross_new=k_cross_new, km_ts=km_series)
         print("diffB", env_params_updated['diffB'])
@@ -32,7 +32,7 @@ def main():
     #
     plot_accuracy(km_series, env_params_updated['agg_shocks'], B_new)
     # plot_policy(k_prime_new, km_series, env_params_updated)
-    plot_lorenz(k_cross_new)
+    plot_lorenz(k_cross_new, k_crossL, k_crossM, k_crossH)
 
 
 if __name__== "__main__":

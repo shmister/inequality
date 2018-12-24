@@ -46,7 +46,7 @@ def plot_policy(k_prime, km_ts, env_params):
     plt.show()
 
 
-def plot_lorenz(k_cross):
+def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
 
     scf_df = pd.read_pickle(wd_folder + 'data/scf_data.pkl')
     scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
@@ -67,4 +67,16 @@ def plot_lorenz(k_cross):
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.hist(k_cross, label='Cross sectional capital distribution', bins=50)
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.hist(k_crossL, label='Cross sectional capital distribution', bins=50)
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.hist(k_crossM, label='Cross sectional capital distribution', bins=50)
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.hist(k_crossH, label='Cross sectional capital distribution', bins=50)
     plt.show()

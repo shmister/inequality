@@ -43,8 +43,8 @@ def individual_optimization(beta, gamma, k_prime, env_params):
 
 def types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated):
 
-    k_primeL_new, cL_new = individual_optimization(betaL, gammaL, k_primeL, env_params_updated)
-    k_primeM_new, cM_new = individual_optimization(betaM, gammaM, k_primeM, env_params_updated)
-    k_primeH_new, cH_new = individual_optimization(betaH, gammaH, k_primeH, env_params_updated)
+    k_primeL_new, cL_new = individual_optimization(beta=betaL, gamma=gammaL, k_prime=k_primeL, env_params=env_params_updated)
+    k_primeM_new, cM_new = individual_optimization(beta=betaM, gamma=gammaM, k_prime=k_primeM, env_params=env_params_updated)
+    k_primeH_new, cH_new = individual_optimization(beta=betaH, gamma=gammaH, k_prime=k_primeH, env_params=env_params_updated)
 
     return k_primeL_new, k_primeM_new, k_primeH_new
