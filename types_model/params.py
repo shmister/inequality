@@ -12,16 +12,16 @@ mu = 0.15  # unemployment benefits as a share of the wage
 l_bar = 1/0.9  # time endowment; normalizes labor supply to 1 in bad state
 
 
-Nagents = 20000  # number of agents for stochastic simulation
+Nagents = 1000  # number of agents for stochastic simulation
 # J = 1000  # number of grid points for stochastic simulation
-Tperiods = 5000 # number of time periods for stochastic simulation
+Tperiods = 1100 # number of time periods for stochastic simulation
 
 k_min = 0 # min capital
 k_max = 1000 # max capital
 ngridk = 200 # number of grid points
 tau = 7 # fine grid parameter
 
-Tperiods_skip = 300 # skip periods
+Tperiods_skip = 100 # skip periods
 
 km_min = 30 # aggregate capital min grid point
 km_max = 50 # aggregate capital max grid point

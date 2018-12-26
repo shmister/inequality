@@ -1,5 +1,5 @@
 from types_model.params import *
-from types_model.utils import generate_shocks, generate_shocks0, generate_grid, generate_types_shocks
+from types_model.utils import generate_shocks, generate_shocks0, generate_grid, generate_types_shocks, generate_types_shocks_stat_shares
 
 import numpy as np
 import pandas as pd
@@ -17,7 +17,8 @@ def init_env_params():
     emp_shocks, agg_shocks = generate_shocks0(trans_mat= prob, N= Nagents, T= Tperiods+Tperiods_skip)
 
     # generate idiosyncratic and aggregate shocks
-    types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
+    # types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
+    types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip, range_ratio=0.0)
     beta_avg = np.dot(stat_dist, np.array([betaL, betaM, betaH]))
 
     a = np.array((1-delta_a, 1+delta_a))

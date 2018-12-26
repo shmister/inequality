@@ -51,7 +51,7 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         interp_pointsM = np.vstack((k_cross[current_types_shocks=='M'], id_shocks[t,:][current_types_shocks=='M'])).T
         interp_pointsH = np.vstack((k_cross[current_types_shocks=='H'], id_shocks[t,:][current_types_shocks=='H'])).T
 
-
+        #
         # interp_pointsL = np.vstack((k_cross[0:1000], id_shocks[t,:][0:1000])).T
         # interp_pointsM = np.vstack((k_cross[1000:9000], id_shocks[t,:][1000:9000])).T
         # interp_pointsH = np.vstack((k_cross[9000:10000], id_shocks[t,:][9000:10000])).T

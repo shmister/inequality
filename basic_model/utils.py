@@ -13,6 +13,27 @@ def p_agg(p_agg_ind):
     return np.array([[p00, 1 - p00], [p10, 1 - p10]])
 
 
+def markov_one_step(current_state, probability, trans_matrix):
+    if current_state=='L':
+        if probability<= trans_matrix[0,0]:
+            return 'L'
+        else:
+            return 'M'
+    elif current_state=='M':
+        if probability<= trans_matrix[1,0]:
+            return 'L'
+        elif (probability > trans_matrix[1,0]) & (probability<= trans_matrix[1,0] + trans_matrix[1,1]):
+            return 'M'
+        else:
+            return 'H'
+    else:
+        if probability <= trans_matrix[2,1]:
+            return 'M'
+        else:
+            return 'H'
+
+
+
 def generate_grid(k_min, k_max, n_points, tau=0):
     if tau!=0:
         x = np.linspace(0, 0.5, n_points)

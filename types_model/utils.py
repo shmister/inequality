@@ -12,6 +12,25 @@ def p_agg(p_agg_ind):
     p10 = p_agg_ind[2,0] + p_agg_ind[2,1]
     return np.array([[p00, 1 - p00], [p10, 1 - p10]])
 
+def markov_one_step(current_state, probability, trans_matrix):
+    if current_state=='L':
+        if probability<= trans_matrix[0,0]:
+            return 'L'
+        else:
+            return 'M'
+    elif current_state=='M':
+        if probability<= trans_matrix[1,0]:
+            return 'L'
+        elif (probability > trans_matrix[1,0]) & (probability<= trans_matrix[1,0] + trans_matrix[1,1]):
+            return 'M'
+        else:
+            return 'H'
+    else:
+        if probability <= trans_matrix[2,1]:
+            return 'M'
+        else:
+            return 'H'
+
 
 def generate_grid(k_min, k_max, n_points, tau=0):
     if tau!=0:
@@ -32,6 +51,44 @@ def generate_types_shocks(trans_mat, N, T):
     stat_dist = mc.stationary_distributions
 
     return types_shocks, stat_dist
+
+
+def generate_types_shocks_stat_shares(trans_mat, N, T, range_ratio=0.1):
+    types_values = ['L', 'M', 'H']
+
+    mc = qe.MarkovChain(trans_mat)
+    stat_dist = mc.stationary_distributions[0]
+
+    nshares = [int(N*j) for j in stat_dist]
+    vals_nshares_dict = dict(zip(types_values, nshares))
+
+    t0_states = np.concatenate(
+        [np.repeat('L', int(vals_nshares_dict['L'])),
+         np.repeat('M', int(vals_nshares_dict['M'])),
+         np.repeat('H', int(vals_nshares_dict['H']))
+         ])
+    types_shocks = []
+    for i in range(T):
+        shares_requirement = False
+        while not shares_requirement:
+
+            prob_array = np.random.rand(int(vals_nshares_dict['L']) + int(vals_nshares_dict['M']) + int(vals_nshares_dict['H']))
+            tuples_array = list(zip(t0_states, prob_array))
+
+            t1_states = [markov_one_step(c, p, trans_mat) for c,p in tuples_array]
+            unique, counts = np.unique(t1_states, return_counts= True)
+            realized_shares = dict(zip(unique, counts))
+
+            condL = (realized_shares['L'] <= (1+ range_ratio)*vals_nshares_dict['L']) & (realized_shares['L'] >= (1- range_ratio)*vals_nshares_dict['L'] )
+            condM = (realized_shares['M'] <= (1+ range_ratio)*vals_nshares_dict['M']) & (realized_shares['M'] >= (1- range_ratio)*vals_nshares_dict['M'] )
+            condH = (realized_shares['H'] <= (1+ range_ratio)*vals_nshares_dict['H']) & (realized_shares['H'] >= (1- range_ratio)*vals_nshares_dict['H'] )
+
+            if condL & condM & condH:
+                types_shocks.append(t1_states)
+                t0_states = t1_states
+                shares_requirement = True
+
+    return np.array(types_shocks), stat_dist
 
 
 def generate_shocks(trans_mat, N, T):
