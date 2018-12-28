@@ -55,6 +55,7 @@ def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
     basic_x0, basic_y0 = basic_model_df['basic_x0'], basic_model_df['basic_y0']
 
     x0, y0 = lorenz_points(vals_distribution= k_cross)
+    pd.DataFrame({'x0': x0, 'y0': y0}).to_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(basic_x0, basic_y0, label='Basic Model Distribution')

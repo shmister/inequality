@@ -14,7 +14,7 @@ l_bar = 1/0.9  # time endowment; normalizes labor supply to 1 in bad state
 
 Nagents = 1000  # number of agents for stochastic simulation
 # J = 1000  # number of grid points for stochastic simulation
-Tperiods = 1100 # number of time periods for stochastic simulation
+Tperiods = 1500 # number of time periods for stochastic simulation
 
 k_min = 0 # min capital
 k_max = 1000 # max capital

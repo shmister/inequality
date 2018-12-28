@@ -167,8 +167,14 @@ def lorenz_points(vals_distribution, weights=None):
 
     return lorenz_x, lorenz_y
 
+def two_digit_int(a):
+    b = int(a)
+    if b<10:
+        return "0" + str(b)
+    else:
+        return str(b)
 
 def print_time(timestamp):
     hours, rem = divmod(timestamp, 3600)
     minutes, seconds = divmod(rem, 60)
-    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
+    return two_digit_int(hours) + ":" + two_digit_int(minutes) + ":" + two_digit_int(seconds)

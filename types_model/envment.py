@@ -14,11 +14,13 @@ def init_env_params():
     km = generate_grid(km_min, km_max, ngridkm)
 
     # generate idiosyncratic and aggregate shocks
-    emp_shocks, agg_shocks = generate_shocks0(trans_mat= prob, N= Nagents, T= Tperiods+Tperiods_skip)
+    emp_shocks, agg_shocks = generate_shocks0(trans_mat= prob, N= Nagents, T= Tperiods)
 
     # generate idiosyncratic and aggregate shocks
     # types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
-    types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip, range_ratio=0.0)
+    types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= 1000, T= Tperiods, range_ratio=0.0)
+    pd.DataFrame(types_shocks).to_pickle(wd_folder + 'temp/types_shocks.pkl')
+
     beta_avg = np.dot(stat_dist, np.array([betaL, betaM, betaH]))
 
     a = np.array((1-delta_a, 1+delta_a))
@@ -75,8 +77,8 @@ def update_environment(env_params, B_coef, k_cross_new=None, km_ts=None):
         diff_B, B_updated = 1000, B_coef
 
     else:
-        x = np.log(km_ts[Tperiods_skip:(Tperiods+Tperiods_skip-1)]).flatten()
-        X = pd.DataFrame([np.ones(len(x)), agg_shocks[Tperiods_skip:(Tperiods+Tperiods_skip-1)], x, agg_shocks[Tperiods_skip:(Tperiods+Tperiods_skip-1)]*x]).T
+        x = np.log(km_ts[Tperiods_skip:(Tperiods-1)]).flatten()
+        X = pd.DataFrame([np.ones(len(x)), agg_shocks[Tperiods_skip:(Tperiods-1)], x, agg_shocks[Tperiods_skip:(Tperiods-1)]*x]).T
         y = np.log(km_ts[(Tperiods_skip+1):]).flatten()
 
         reg = sm.OLS(y, X).fit()
