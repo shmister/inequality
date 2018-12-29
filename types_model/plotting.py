@@ -67,12 +67,18 @@ def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
     basic_model_df = pd.read_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
     basic_x0, basic_y0 = basic_model_df['basic_x0'], basic_model_df['basic_y0']
 
-    x0, y0 = lorenz_points(vals_distribution= k_cross)
-    pd.DataFrame({'x0': x0, 'y0': y0}).to_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
+    # x0, y0 = lorenz_points(vals_distribution= k_cross)
+    # pd.DataFrame({'x0': x0, 'y0': y0}).to_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
+    hetero0_df = pd.read_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
+    x0, y0 = hetero0_df['x0'], hetero0_df['y0']
+
+    x1, y1 = lorenz_points(vals_distribution= k_cross)
+    pd.DataFrame({'x1': x1, 'y1': y1}).to_pickle(wd_folder + 'temp/hetero1_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(basic_x0, basic_y0, label='Basic Model Distribution')
     ax.plot(x0, y0, label='Model Distribution')
+    ax.plot(x1, y1, label='Gamma Distribution')
     ax.plot(scf_x, scf_y, label='SCF Data')
     ax.set_xlabel('Population Share')
     ax.set_ylabel('Wealth')
