@@ -23,28 +23,41 @@ def plot_accuracy(km_ts, agg_shocks, B):
     plt.show()
 
 
-def plot_policy(k_prime, km_ts, env_params):
+def plot_policy(k_primeL, k_primeM, k_primeH, km_ts, env_params):
     k, km = env_params['k_grid'], env_params['km_grid']
 
-    k_prime = k_prime.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
+    pd.DataFrame(k_primeL).to_pickle(wd_folder + 'temp/k_prime_l.pkl')
+    pd.DataFrame(k_primeM).to_pickle(wd_folder + 'temp/k_prime_m.pkl')
+    pd.DataFrame(k_primeH).to_pickle(wd_folder + 'temp/k_prime_h.pkl')
 
-    percentiles = [0.1, 0.25, 0.75, 0.9]
-    km_percentiles = np.percentile(km_ts, percentiles)
-    km_cycler = cycle(km_percentiles)
-    fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
-    for a in range(len(km_percentiles)):
-        m, n = np.unravel_index(a, (2, 2))
+    k_primeL = k_primeL.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
+    k_primeM = k_primeM.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
+    k_primeH = k_primeH.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
+
+    for km_val in [0, 3, 6, 9]:
+        fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
+
         for i in range(nstates_ag):
             for j in range(nstates_id):
 
-                x_vals = k[0: 40]
-                y_vals = RectBivariateSpline(k, km, k_prime[:, :, i, j]).ev(x_vals, next(km_cycler))
+                x_vals = k[0: 80]
+                y_vals = RectBivariateSpline(k, km, k_primeH[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = H' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
 
-                ax[m, n].plot(x_vals, y_vals, label='Aggregate state = %s, Employment = %s' % (i,j))
-                ax[m, n].set_xlabel('Capital accumulation: percentile = %s' % (percentiles[a]))
-                ax[m, n].legend(loc='best', fontsize=8)
-    plt.show()
+                y_vals = RectBivariateSpline(k, km, k_primeM[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = M' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
 
+                y_vals = RectBivariateSpline(k, km, k_primeL[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = L' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
+
+
+        plt.show()
 
 def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
 
@@ -67,17 +80,10 @@ def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
     plt.show()
 
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.hist(k_cross, label='Cross sectional capital distribution', bins=50)
-    plt.show()
-
-    fig, ax = plt.subplots(figsize=(9, 6))
-    ax.hist(k_crossL, label='Cross sectional capital distribution', bins=50)
-    plt.show()
-
-    fig, ax = plt.subplots(figsize=(9, 6))
-    ax.hist(k_crossM, label='Cross sectional capital distribution', bins=50)
-    plt.show()
-
-    fig, ax = plt.subplots(figsize=(9, 6))
-    ax.hist(k_crossH, label='Cross sectional capital distribution', bins=50)
+    ax.hist(k_crossL, label='L', bins=50)
+    ax.hist(k_crossM, label='M', bins=50)
+    ax.hist(k_crossH, label='H', bins=50)
+    ax.set_xlabel('Wealth')
+    ax.set_ylabel('Population')
+    ax.legend(loc='best')
     plt.show()

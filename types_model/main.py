@@ -35,7 +35,7 @@ def main():
         k_primeL, k_primeM, k_primeH = k_primeL_new, k_primeM_new, k_primeH_new
     #
     plot_accuracy(km_series, env_params_updated['agg_shocks'], B_new)
-    # plot_policy(k_prime_new, km_series, env_params_updated)
+    plot_policy(k_primeL_new, k_primeM_new, k_primeH_new, km_series, env_params_updated)
     plot_lorenz(k_cross_new, k_crossL, k_crossM, k_crossH)
 
 
