@@ -7,6 +7,7 @@ from types_model.params import *
 
 import time
 
+
 def main():
     print("Initiating environment. ", print_time(time.time()))
 
@@ -15,7 +16,6 @@ def main():
     k_primeL, _ = init_kprime_kcross(env_params_updated)
     k_primeM, _ = init_kprime_kcross(env_params_updated)
     k_primeH, _ = init_kprime_kcross(env_params_updated)
-
 
     diff_B= dif_B
 
