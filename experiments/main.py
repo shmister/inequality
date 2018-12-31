@@ -2,8 +2,7 @@ from experiments.envment import *
 from experiments.individual import *
 from experiments.aggregate import *
 from experiments.plotting import *
-
-from types_model.params import *
+from experiments.params import *
 
 import time
 

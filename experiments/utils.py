@@ -1,5 +1,5 @@
 from experiments.params import ur_b
-from experiments.params import wd_folder, experiment_name
+from experiments.params import wd_folder, experiment_name, equal_shares
 
 import numpy as np
 import quantecon as qe
@@ -191,7 +191,10 @@ def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
 
 
 def experiment_output_dir():
-    experiment_path = wd_folder + experiment_name
+    if equal_shares:
+        experiment_path = wd_folder + experiment_name + '_eqShT'
+    else:
+        experiment_path = wd_folder + experiment_name + '_eqShF'
 
     try:
         os.mkdir(experiment_path)

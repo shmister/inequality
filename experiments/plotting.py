@@ -30,7 +30,7 @@ def plot_policy(k_primeL, k_primeM, k_primeH, km_ts, env_params):
     k_primeM = k_primeM.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
     k_primeH = k_primeH.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
 
-    for km_val in [0, 3, 6, 9]:
+    for km_val in [0, 9]:
         fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
 
         for i in range(nstates_ag):
@@ -55,27 +55,47 @@ def plot_policy(k_primeL, k_primeM, k_primeH, km_ts, env_params):
 
         plt.show()
 
+    for km_val in [0, 9]:
+        fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
+
+        for i in range(nstates_ag):
+            for j in range(nstates_id):
+
+                x_vals = k[0: 120]
+                y_vals = RectBivariateSpline(k, km, k_primeH[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = H' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
+
+                y_vals = RectBivariateSpline(k, km, k_primeM[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = M' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
+
+                y_vals = RectBivariateSpline(k, km, k_primeL[:, :, i, j]).ev(x_vals, km[km_val])
+                ax[i, j].plot(x_vals, y_vals, label='Agg = %s, Emp = %s, Type = L' % (i,j))
+                ax[i, j].set_xlabel('')
+                ax[i, j].legend(loc='best', fontsize=8)
+
+
+        plt.show()
+
 
 def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
 
     scf_df = pd.read_pickle(wd_folder + 'data/scf_data.pkl')
     scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
-
     basic_model_df = pd.read_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
     basic_x0, basic_y0 = basic_model_df['basic_x0'], basic_model_df['basic_y0']
-
-    # x0, y0 = lorenz_points(vals_distribution= k_cross)
-    # pd.DataFrame({'x0': x0, 'y0': y0}).to_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
     hetero0_df = pd.read_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
     x0, y0 = hetero0_df['x0'], hetero0_df['y0']
 
     x1, y1 = lorenz_points(vals_distribution= k_cross)
-    pd.DataFrame({'x1': x1, 'y1': y1}).to_pickle(wd_folder + 'temp/hetero1_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(basic_x0, basic_y0, label='Basic Model Distribution')
-    ax.plot(x0, y0, label='Model Distribution')
-    ax.plot(x1, y1, label='Gamma Distribution')
+    ax.plot(x0, y0, label='Hetero Model Distribution')
+    ax.plot(x1, y1, label='New Model Distribution')
     ax.plot(scf_x, scf_y, label='SCF Data')
     ax.set_xlabel('Population Share')
     ax.set_ylabel('Wealth')

@@ -2,9 +2,7 @@ import numpy as np
 
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
-# betaL, betaM, betaH = 0.98013333, 0.9858, 0.99146667  # discount factor
-betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
-#betaL, betaM, betaH = 0.9, 0.95, 0.99 # discount factor
+betaL, betaM, betaH = 0.9858, 0.9894, 0.9930  # discount factor
 
 gammaL, gammaM, gammaH = 1.0, 1.0, 1.0  # utility function parameter
 alpha = 0.36  # share of capital in production function

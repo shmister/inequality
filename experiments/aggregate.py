@@ -47,18 +47,22 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         # km_series[t] and ag_shock
         #
         current_types_shocks = types_shocks[t, :]
-        indices_typeL, indices_typeM, indices_typeH = np.where(current_types_shocks=='L'), np.where(current_types_shocks=='M'), np.where(current_types_shocks=='H')
+
+        if equal_shares:
+            indices_typeL, indices_typeM, indices_typeH = [int(i) for i in np.arange(0, Nagents/types_shares[0])], \
+                                                          [int(i) for i in np.arange(0, Nagents/(types_shares[0] + types_shares[1]))], \
+                                                          [int(i) for i in np.arange(0, Nagents/(types_shares[0] + types_shares[1] + types_shares[2]))]
+
+        else:
+            indices_typeL, indices_typeM, indices_typeH = np.where(current_types_shocks=='L'), \
+                                                          np.where(current_types_shocks=='M'), \
+                                                          np.where(current_types_shocks=='H')
+
 
         interp_pointsL = np.vstack((k_cross[indices_typeL], id_shocks[t,:][indices_typeL])).T
         interp_pointsM = np.vstack((k_cross[indices_typeM], id_shocks[t,:][indices_typeM])).T
         interp_pointsH = np.vstack((k_cross[indices_typeH], id_shocks[t,:][indices_typeH])).T
 
-
-        # interp_pointsL = np.vstack((k_cross[0:1000], id_shocks[t,:][0:1000])).T
-        # interp_pointsM = np.vstack((k_cross[1000:9000], id_shocks[t,:][1000:9000])).T
-        # interp_pointsH = np.vstack((k_cross[9000:10000], id_shocks[t,:][9000:10000])).T
-
-        #print(interp_pointsL.shape, interp_pointsM.shape, interp_pointsH.shape)
 
         k_crossL_n = interpn(points=(k, epsilon),
                             values= k_primeL_t4.reshape(ngridk, nstates_id),
@@ -79,6 +83,7 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
 
         if np.sum(k_cross_n[k_cross_n==-100]) >0:
             print("k cross incorrect")
+            break
 
         # restrict k_cross to be within [k_min, k_max]
         k_cross_n = np.clip(k_cross_n, k_min, k_max)

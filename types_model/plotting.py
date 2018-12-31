@@ -26,9 +26,9 @@ def plot_accuracy(km_ts, agg_shocks, B):
 def plot_policy(k_primeL, k_primeM, k_primeH, km_ts, env_params):
     k, km = env_params['k_grid'], env_params['km_grid']
 
-    pd.DataFrame(k_primeL).to_pickle(wd_folder + 'temp/k_prime_l.pkl')
-    pd.DataFrame(k_primeM).to_pickle(wd_folder + 'temp/k_prime_m.pkl')
-    pd.DataFrame(k_primeH).to_pickle(wd_folder + 'temp/k_prime_h.pkl')
+    # pd.DataFrame(k_primeL).to_pickle(wd_folder + 'temp/k_prime_l.pkl')
+    # pd.DataFrame(k_primeM).to_pickle(wd_folder + 'temp/k_prime_m.pkl')
+    # pd.DataFrame(k_primeH).to_pickle(wd_folder + 'temp/k_prime_h.pkl')
 
     k_primeL = k_primeL.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
     k_primeM = k_primeM.reshape((ngridk, ngridkm, nstates_ag, nstates_id))
@@ -70,16 +70,16 @@ def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
 
     # x0, y0 = lorenz_points(vals_distribution= k_cross)
     # pd.DataFrame({'x0': x0, 'y0': y0}).to_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
-    hetero0_df = pd.read_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
-    x0, y0 = hetero0_df['x0'], hetero0_df['y0']
+    # hetero0_df = pd.read_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
+    # x0, y0 = hetero0_df['x0'], hetero0_df['y0']
 
     x1, y1 = lorenz_points(vals_distribution= k_cross)
-    pd.DataFrame({'x1': x1, 'y1': y1}).to_pickle(wd_folder + 'temp/hetero1_model_lorenz.pkl')
+    # pd.DataFrame({'x1': x1, 'y1': y1}).to_pickle(wd_folder + 'temp/hetero1_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(basic_x0, basic_y0, label='Basic Model Distribution')
-    ax.plot(x0, y0, label='Model Distribution')
-    ax.plot(x1, y1, label='Gamma Distribution')
+    # ax.plot(x0, y0, label='Model Distribution')
+    ax.plot(x1, y1, label='Model Distribution')
     ax.plot(scf_x, scf_y, label='SCF Data')
     ax.set_xlabel('Population Share')
     ax.set_ylabel('Wealth')
