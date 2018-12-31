@@ -1,6 +1,10 @@
 import numpy as np
-
+import os
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
+
+
+experiment_name = 'exp_name'
+
 
 # betaL, betaM, betaH = 0.98013333, 0.9858, 0.99146667  # discount factor
 betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
