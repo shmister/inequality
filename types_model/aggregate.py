@@ -43,9 +43,7 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         k_primeH_t4 = interpn(points=(k, km, epsilon, epsilon),
                               values=k_primeH.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
                               xi=interp_points).reshape(ngridk, nstates_id)
-        # 4-dimensional capital function at time t is obtained by fixing known
-        # km_series[t] and ag_shock
-        #
+
         current_types_shocks = types_shocks[t, :]
         indices_typeL, indices_typeM, indices_typeH = np.where(current_types_shocks=='L'), np.where(current_types_shocks=='M'), np.where(current_types_shocks=='H')
 
@@ -53,12 +51,6 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         interp_pointsM = np.vstack((k_cross[indices_typeM], id_shocks[t,:][indices_typeM])).T
         interp_pointsH = np.vstack((k_cross[indices_typeH], id_shocks[t,:][indices_typeH])).T
 
-
-        # interp_pointsL = np.vstack((k_cross[0:1000], id_shocks[t,:][0:1000])).T
-        # interp_pointsM = np.vstack((k_cross[1000:9000], id_shocks[t,:][1000:9000])).T
-        # interp_pointsH = np.vstack((k_cross[9000:10000], id_shocks[t,:][9000:10000])).T
-
-        #print(interp_pointsL.shape, interp_pointsM.shape, interp_pointsH.shape)
 
         k_crossL_n = interpn(points=(k, epsilon),
                             values= k_primeL_t4.reshape(ngridk, nstates_id),

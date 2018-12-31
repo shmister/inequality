@@ -43,21 +43,18 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         k_primeH_t4 = interpn(points=(k, km, epsilon, epsilon),
                               values=k_primeH.reshape(ngridk, ngridkm, nstates_ag, nstates_id),
                               xi=interp_points).reshape(ngridk, nstates_id)
-        # 4-dimensional capital function at time t is obtained by fixing known
-        # km_series[t] and ag_shock
-        #
+
         current_types_shocks = types_shocks[t, :]
 
         if equal_shares:
-            indices_typeL, indices_typeM, indices_typeH = [int(i) for i in np.arange(0, Nagents/types_shares[0])], \
-                                                          [int(i) for i in np.arange(0, Nagents/(types_shares[0] + types_shares[1]))], \
-                                                          [int(i) for i in np.arange(0, Nagents/(types_shares[0] + types_shares[1] + types_shares[2]))]
+            indices_typeL, indices_typeM, indices_typeH = [int(i) for i in np.arange(0, Nagents*types_shares[0])], \
+                                                          [int(i) for i in np.arange(0, Nagents*(types_shares[0] + types_shares[1]))], \
+                                                          [int(i) for i in np.arange(0, Nagents*(types_shares[0] + types_shares[1] + types_shares[2]))]
 
         else:
             indices_typeL, indices_typeM, indices_typeH = np.where(current_types_shocks=='L'), \
                                                           np.where(current_types_shocks=='M'), \
                                                           np.where(current_types_shocks=='H')
-
 
         interp_pointsL = np.vstack((k_cross[indices_typeL], id_shocks[t,:][indices_typeL])).T
         interp_pointsM = np.vstack((k_cross[indices_typeM], id_shocks[t,:][indices_typeM])).T

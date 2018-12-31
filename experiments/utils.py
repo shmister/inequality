@@ -186,15 +186,17 @@ def print_time(timestamp):
 
 def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
 
-    pd.DataFrame({'k_primeL': k_primeL, 'k_primeM': k_primeM, 'k_primeH': k_primeH}).to_pickle(experiment_folder + '/k_prime.pkl')
-    pd.DataFrame({'k_cross':k_cross}).to_pickle(experiment_folder + '/k_cross.pkl')
+    if experiment_folder is not None:
+        experiment_folder = str(experiment_folder)
+        pd.DataFrame({'k_primeL': k_primeL, 'k_primeM': k_primeM, 'k_primeH': k_primeH}).to_pickle(experiment_folder + '/k_prime.pkl')
+        pd.DataFrame({'k_cross':k_cross}).to_pickle(experiment_folder + '/k_cross.pkl')
 
 
 def experiment_output_dir():
     if equal_shares:
-        experiment_path = wd_folder + experiment_name + '_eqShT'
+        experiment_path = wd_folder + 'output/' + experiment_name + '_eqShT'
     else:
-        experiment_path = wd_folder + experiment_name + '_eqShF'
+        experiment_path = wd_folder + 'output/' + experiment_name + '_eqShF'
 
     try:
         os.mkdir(experiment_path)

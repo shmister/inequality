@@ -87,15 +87,16 @@ def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
     scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
     basic_model_df = pd.read_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
     basic_x0, basic_y0 = basic_model_df['basic_x0'], basic_model_df['basic_y0']
-    hetero0_df = pd.read_pickle(wd_folder + 'temp/hetero0_model_lorenz.pkl')
-    x0, y0 = hetero0_df['x0'], hetero0_df['y0']
+
+    hetero0_df = pd.read_pickle('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/output/KS_hetero_eqShF/k_cross.pkl')
+    x0, y0 = lorenz_points(vals_distribution= hetero0_df['k_cross'])
 
     x1, y1 = lorenz_points(vals_distribution= k_cross)
 
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.plot(basic_x0, basic_y0, label='Basic Model Distribution')
-    ax.plot(x0, y0, label='Hetero Model Distribution')
-    ax.plot(x1, y1, label='New Model Distribution')
+    ax.plot(basic_x0, basic_y0, label='Basic KS')
+    ax.plot(x0, y0, label='Hetero KS')
+    ax.plot(x1, y1, label='Experiment')
     ax.plot(scf_x, scf_y, label='SCF Data')
     ax.set_xlabel('Population Share')
     ax.set_ylabel('Wealth')

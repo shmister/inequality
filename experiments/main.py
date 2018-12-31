@@ -8,6 +8,7 @@ import time
 
 
 def main():
+
     print("Initiating environment. ", print_time(time.time()))
 
     env_params = init_env_params()
@@ -38,8 +39,6 @@ def main():
     plot_accuracy(km_series, env_params_updated['agg_shocks'], B_new)
     plot_policy(k_primeL_new, k_primeM_new, k_primeH_new, km_series, env_params_updated)
     plot_lorenz(k_cross_new, k_crossL, k_crossM, k_crossH)
-
-
 
 
 if __name__== "__main__":

@@ -1,14 +1,15 @@
 import numpy as np
-import os
+
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
 
-experiment_name = 'exp_name'
-equal_shares = False
+experiment_name = 'KS_hetero_repeat'
+equal_shares = True
 
-# betaL, betaM, betaH = 0.98013333, 0.9858, 0.99146667  # discount factor
-betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
-#betaL, betaM, betaH = 0.9, 0.95, 0.99 # discount factor
+
+#betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
+betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
+
 
 gammaL, gammaM, gammaH = 1.0, 1.0, 1.0  # utility function parameter
 alpha = 0.36  # share of capital in production function
@@ -52,12 +53,12 @@ prob_type = np.array(([0.995, 0.005, 0.0],
                       [0.000625, 0.99875, 0.000625],
                       [0.0, 0.005, 0.995]))
 
-types_shares = [0.333, 0.333, 0.334]
+types_shares = [0.333, 0.334, 0.333]
 
 
 dif_B = 10**10 # difference between coefficients B of ALM on succ. iter.
 criter_k = 1e-8
-criter_B = 1e-6
+criter_B = 1e-8
 update_k = 0.7
 update_B = 0.3
 B_init = np.array((0,1))*np.ones((nstates_ag, 1))
