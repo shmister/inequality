@@ -48,8 +48,8 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
 
         if equal_shares:
             indices_typeL, indices_typeM, indices_typeH = [int(i) for i in np.arange(0, Nagents*types_shares[0])], \
-                                                          [int(i) for i in np.arange(0, Nagents*(types_shares[0] + types_shares[1]))], \
-                                                          [int(i) for i in np.arange(0, Nagents*(types_shares[0] + types_shares[1] + types_shares[2]))]
+                                                          [int(i) for i in np.arange(Nagents*types_shares[0], Nagents*(types_shares[0] + types_shares[1]))], \
+                                                          [int(i) for i in np.arange(Nagents*(types_shares[0] + types_shares[1]), Nagents*(types_shares[0] + types_shares[1] + types_shares[2]))]
 
         else:
             indices_typeL, indices_typeM, indices_typeH = np.where(current_types_shocks=='L'), \

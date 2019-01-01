@@ -3,7 +3,7 @@ import numpy as np
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
 
-experiment_name = 'KS_hetero_repeat'
+experiment_name = 'KS_beta33x33x33'
 equal_shares = True
 
 
