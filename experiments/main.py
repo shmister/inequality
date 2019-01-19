@@ -5,11 +5,12 @@ from experiments.plotting import *
 from experiments.params import *
 
 import time
+import shutil
 
 
 def main():
 
-    print("Initiating environment. ", print_time(time.time()))
+    print("Initiating environment:", print_time())
 
     env_params = init_env_params()
     B_new, env_params_updated = update_environment(env_params, B_init)
@@ -21,13 +22,13 @@ def main():
 
     while diff_B > criter_B:
 
-        print("Solving individual optimization.", print_time(time.time()))
+        print("Solving individual optimization:", print_time())
         k_primeL_new, k_primeM_new, k_primeH_new = types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated)
 
-        print("Solving for aggregates.", print_time(time.time()))
+        print("Solving for aggregates:", print_time())
         km_series, k_cross_new, k_crossL, k_crossM, k_crossH = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
 
-        print("Updating environment.", print_time(time.time()))
+        print("Updating environment:", print_time())
         B_new, env_params_updated = update_environment(env_params, B_new, k_cross_new=k_cross_new, km_ts=km_series)
         print("diffB", env_params_updated['diffB'])
 

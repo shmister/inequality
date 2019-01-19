@@ -1,5 +1,5 @@
 from experiments.params import ur_b
-from experiments.params import wd_folder, experiment_name, equal_shares
+from experiments.params import wd_folder
 
 import numpy as np
 import quantecon as qe
@@ -8,6 +8,8 @@ from scipy.interpolate import interp1d
 import pandas as pd
 import time
 import os
+import shutil
+import datetime as dt
 
 def p_agg(p_agg_ind):
     p00 = p_agg_ind[0,0] + p_agg_ind[0,1]
@@ -178,10 +180,8 @@ def two_digit_int(a):
         return str(b)
 
 
-def print_time(timestamp):
-    hours, rem = divmod(timestamp, 3600)
-    minutes, seconds = divmod(rem, 60)
-    return two_digit_int(hours) + ":" + two_digit_int(minutes) + ":" + two_digit_int(seconds)
+def print_time():
+    return '{date:%Y-%m-%d %H:%M:%S}'.format(date=dt.datetime.now())
 
 
 def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
@@ -190,13 +190,13 @@ def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
         experiment_folder = str(experiment_folder)
         pd.DataFrame({'k_primeL': k_primeL, 'k_primeM': k_primeM, 'k_primeH': k_primeH}).to_pickle(experiment_folder + '/k_prime.pkl')
         pd.DataFrame({'k_cross':k_cross}).to_pickle(experiment_folder + '/k_cross.pkl')
+        shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_folder + '/params.py')
 
 
 def experiment_output_dir():
-    if equal_shares:
-        experiment_path = wd_folder + 'output/' + experiment_name + '_eqShT'
-    else:
-        experiment_path = wd_folder + 'output/' + experiment_name + '_eqShF'
+
+    # experiment_path = wd_folder + 'output/' + 'v-{date:%Y-%m-%d %H:%M:%S}.txt'.format( date=dt.datetime.now())
+    experiment_path = wd_folder + 'output/' + 'v{date:%Y%m%d%H%M%S}'.format(date=dt.datetime.now())
 
     try:
         os.mkdir(experiment_path)
@@ -205,4 +205,5 @@ def experiment_output_dir():
         return None
     else:
         print ("Successfully created the directory %s " % experiment_path)
+        shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_path + '/params.py')
         return experiment_path

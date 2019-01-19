@@ -2,13 +2,19 @@ import numpy as np
 
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
-
-experiment_name = 'KS_beta33x33x33'
 equal_shares = True
+
+beta_mean = 0.9867
+beta_sd = 0.0067
+
+# beta_mean = 0.9864
+# beta_sd = 0.0053
+
+betaL, betaM, betaH = beta_mean - beta_sd, beta_mean, beta_mean + beta_sd
 
 
 #betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
-betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
+#betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
 
 
 gammaL, gammaM, gammaH = 1.0, 1.0, 1.0  # utility function parameter
@@ -59,6 +65,6 @@ types_shares = [0.333, 0.334, 0.333]
 dif_B = 10**10 # difference between coefficients B of ALM on succ. iter.
 criter_k = 1e-8
 criter_B = 1e-8
-update_k = 0.7
+update_k = 0.5
 update_B = 0.3
 B_init = np.array((0,1))*np.ones((nstates_ag, 1))
