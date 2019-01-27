@@ -4,9 +4,6 @@ from experiments.aggregate import *
 from experiments.plotting import *
 from experiments.params import *
 
-import time
-import shutil
-
 
 def main():
 

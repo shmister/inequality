@@ -83,7 +83,7 @@ def plot_policy(k_primeL, k_primeM, k_primeH, km_ts, env_params):
 
 def plot_lorenz(k_cross, k_crossL, k_crossM, k_crossH):
 
-    scf_df = pd.read_pickle(wd_folder + 'data/scf_data.pkl')
+    scf_df = pd.read_pickle(wd_folder + 'data/scf2016.pkl')
     scf_x, scf_y = lorenz_points(vals_distribution=scf_df['networth'], weights=scf_df['wgt'])
     basic_model_df = pd.read_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
     basic_x0, basic_y0 = basic_model_df['basic_x0'], basic_model_df['basic_y0']

@@ -2,22 +2,22 @@ import numpy as np
 
 wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
 
-equal_shares = True
+equal_shares = False
 
 beta_mean = 0.9867
-beta_sd = 0.0067
+beta_sd = 0.00672
 
 # beta_mean = 0.9864
 # beta_sd = 0.0053
 
-betaL, betaM, betaH = beta_mean - beta_sd, beta_mean, beta_mean + beta_sd
+betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*beta_sd
 
 
 #betaL, betaM, betaH = 0.9867 - 0.0067, 0.9867, 0.9867+0.0067
-#betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
+# betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
 
 
-gammaL, gammaM, gammaH = 1.0, 1.0, 1.0  # utility function parameter
+gammaL, gammaM, gammaH = 0.5, 1.0, 4.0  # utility function parameter
 alpha = 0.36  # share of capital in production function
 delta = 0.025  # depreciation rate
 mu = 0.15  # unemployment benefits as a share of the wage
@@ -55,8 +55,12 @@ prob = np.array(([0.525, 0.35, 0.03125, 0.09375],
                  [0.09375, 0.03125, 0.291667, 0.583333],
                  [0.009115, 0.115885, 0.024306, 0.850694]))
 
+# prob_type = np.array(([0.995, 0.005, 0.0],
+#                       [0.000625, 0.99875, 0.000625],
+#                       [0.0, 0.005, 0.995]))
+
 prob_type = np.array(([0.995, 0.005, 0.0],
-                      [0.000625, 0.99875, 0.000625],
+                      [0.005, 0.99, 0.005],
                       [0.0, 0.005, 0.995]))
 
 types_shares = [0.333, 0.334, 0.333]
