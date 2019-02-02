@@ -193,10 +193,10 @@ def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
         shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_folder + '/params.py')
 
 
-def experiment_output_dir():
+def experiment_output_dir(gammaL, gammaM, gammaH):
 
     # experiment_path = wd_folder + 'output/' + 'v-{date:%Y-%m-%d %H:%M:%S}.txt'.format( date=dt.datetime.now())
-    experiment_path = wd_folder + 'output/' + 'v{date:%Y%m%d%H%M%S}'.format(date=dt.datetime.now())
+    experiment_path = wd_folder + 'output/v' + str(gammaL) + 'x' + str(gammaM) + 'x' + str(gammaH)
 
     try:
         os.mkdir(experiment_path)
@@ -207,3 +207,9 @@ def experiment_output_dir():
         print ("Successfully created the directory %s " % experiment_path)
         shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_path + '/params.py')
         return experiment_path
+
+def frange(start, stop, step):
+    i = start
+    while i < stop:
+        yield i
+        i += step

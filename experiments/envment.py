@@ -6,7 +6,7 @@ import pandas as pd
 import statsmodels.api as sm
 
 
-def init_env_params():
+def init_env_params(betaL, betaM, betaH):
     # generate individual capital grid
     k = generate_grid(k_min, k_max, ngridk, tau)
 
@@ -14,11 +14,13 @@ def init_env_params():
     km = generate_grid(km_min, km_max, ngridkm)
 
     # generate idiosyncratic and aggregate shocks
+    print("Generating idiosyncratic and aggregate shocks.")
     emp_shocks, agg_shocks = generate_shocks0(trans_mat= prob, N= Nagents, T= Tperiods)
 
     # generate idiosyncratic and aggregate shocks
     # types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
-    types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= 1000, T= Tperiods, range_ratio=0.0)
+    print("Generating type shocks.")
+    types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= Nagents, T= Tperiods, range_ratio=0.0005)
     pd.DataFrame(types_shocks).to_pickle(wd_folder + 'temp/types_shocks.pkl')
 
     beta_avg = np.dot(stat_dist, np.array([betaL, betaM, betaH]))
