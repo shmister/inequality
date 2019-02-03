@@ -208,7 +208,8 @@ def experiment_output_dir(gammaL, gammaM, gammaH):
         shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_path + '/params.py')
         return experiment_path
 
-def gini3(income, weights=None):
+
+def gini(income, weights=None):
 
     if weights is None:
         weights = np.ones(len(income))*1/len(income)
@@ -222,3 +223,48 @@ def gini3(income, weights=None):
     cov = np.cov(x, F_x, rowvar=False, aweights=f_x)[0,1]
     g = 2 * cov / mu
     return g
+
+
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return array[idx], idx
+
+
+def cum_wgts_vals(values, values_weights=None, sort_top=False):
+
+    if values_weights is None:
+        values_weights = np.ones(len(values))*1/len(values)
+
+    df = pd.DataFrame({'values': values, 'weights': values_weights})
+    if sort_top:
+        df = df.sort_values('values', ascending= False)
+    else:
+        df = df.sort_values('values', ascending= True)
+    df['temp'] = df['weights']*df['values']
+
+    cum_weights = np.cumsum(df['weights'])/np.sum(df['weights']) # cumulative probability distribution
+    cum_values = np.cumsum(df['temp'])/np.sum(df['temp']) # cumulative ownership shares
+
+    return list(cum_weights), list(cum_values)
+
+
+def dist_points(vals_distribution, weights=None):
+    if weights is None:
+        weights = np.ones(len(vals_distribution))*1/len(vals_distribution)
+
+    cum_weights_top, cum_values_top = cum_wgts_vals(vals_distribution, weights, sort_top= True)
+    cum_weights_btm, cum_values_btm = cum_wgts_vals(vals_distribution, weights, sort_top= False)
+
+    dist_points_array = []
+    for i in [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
+        _, top_idx = find_nearest(cum_weights_top, i)
+        _, btm_idx = find_nearest(cum_weights_btm, i)
+        top_wealth = cum_values_top[top_idx]
+        btm_wealth = cum_values_btm[btm_idx]
+
+        dist_points_array.append([i, btm_wealth, top_wealth])
+
+    dist_points_df = pd.DataFrame(dist_points_array, columns=['percent', 'btm_wealth', 'top_wealth'])
+
+    return dist_points_df
