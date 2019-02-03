@@ -208,8 +208,17 @@ def experiment_output_dir(gammaL, gammaM, gammaH):
         shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_path + '/params.py')
         return experiment_path
 
-def frange(start, stop, step):
-    i = start
-    while i < stop:
-        yield i
-        i += step
+def gini3(income, weights=None):
+
+    if weights is None:
+        weights = np.ones(len(income))*1/len(income)
+
+    df = pd.DataFrame({'income': income, 'weights': weights}).sort_values('income', ascending= True)
+
+    x = df['income']
+    f_x = df['weights'] / df['weights'].sum()
+    F_x = f_x.cumsum()
+    mu = np.sum(x * f_x)
+    cov = np.cov(x, F_x, rowvar=False, aweights=f_x)[0,1]
+    g = 2 * cov / mu
+    return g
