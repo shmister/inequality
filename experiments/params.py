@@ -19,7 +19,7 @@ betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*be
 #betaL, betaM, betaH = beta_mean - (9/10)*beta_sd, beta_mean, beta_mean + (9/10)*beta_sd
 
 
-gammaL, gammaM, gammaH = 0.75, 2.0, 4.0  # utility function parameter
+gammaL, gammaM, gammaH = 0.75, 1.5, 4.0  # utility function parameter
 #gammaL, gammaM, gammaH = 0.5, 1.0, 2.0  # utility function parameter
 alpha = 0.36  # share of capital in production function
 delta = 0.025  # depreciation rate

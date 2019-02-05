@@ -11,10 +11,12 @@ import os
 import shutil
 import datetime as dt
 
+
 def p_agg(p_agg_ind):
     p00 = p_agg_ind[0,0] + p_agg_ind[0,1]
     p10 = p_agg_ind[2,0] + p_agg_ind[2,1]
     return np.array([[p00, 1 - p00], [p10, 1 - p10]])
+
 
 def markov_one_step(current_state, probability, trans_matrix):
     if current_state=='L':
@@ -230,7 +232,6 @@ def find_nearest(array, value):
     idx = (np.abs(array - value)).argmin()
     return array[idx], idx
 
-
 def cum_wgts_vals(values, values_weights=None, sort_top=False):
 
     if values_weights is None:
@@ -249,7 +250,7 @@ def cum_wgts_vals(values, values_weights=None, sort_top=False):
     return list(cum_weights), list(cum_values)
 
 
-def dist_points(vals_distribution, weights=None):
+def dist_points(vals_distribution, btm_range=None, top_range=None, weights=None):
     if weights is None:
         weights = np.ones(len(vals_distribution))*1/len(vals_distribution)
 
@@ -257,14 +258,31 @@ def dist_points(vals_distribution, weights=None):
     cum_weights_btm, cum_values_btm = cum_wgts_vals(vals_distribution, weights, sort_top= False)
 
     dist_points_array = []
-    for i in [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
+    for i in np.arange(0.01, 1.0, 0.01):
         _, top_idx = find_nearest(cum_weights_top, i)
         _, btm_idx = find_nearest(cum_weights_btm, i)
         top_wealth = cum_values_top[top_idx]
         btm_wealth = cum_values_btm[btm_idx]
 
-        dist_points_array.append([i, btm_wealth, top_wealth])
+        dist_points_array.append([round(i, 2), btm_wealth, top_wealth])
 
     dist_points_df = pd.DataFrame(dist_points_array, columns=['percent', 'btm_wealth', 'top_wealth'])
+    dist_points_melted = pd.melt(dist_points_df, id_vars=['percent'], value_vars=['btm_wealth', 'top_wealth'])
 
-    return dist_points_df
+    if btm_range is None:
+        btm_range = [0.1, 0.2, 0.4]
+    if top_range is None:
+        top_range = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.6]
+
+    dist_selected_top = dist_points_melted[(dist_points_melted['variable']=='top_wealth') & (dist_points_melted['percent'].isin(top_range))]
+    dist_selected_btm = dist_points_melted[(dist_points_melted['variable']=='btm_wealth') & (dist_points_melted['percent'].isin(btm_range))]
+
+    return pd.concat([dist_selected_top, dist_selected_btm.sort_values('percent', ascending=False)])
+
+
+def metrics(name, income, weights=None):
+    dist_df = dist_points(vals_distribution=income, weights=weights)
+    gini_df = pd.DataFrame({'percent': [0.00], 'variable': ['gini'], 'value': [gini(income=income, weights= weights)]})
+    metrics_df = pd.concat([dist_df, gini_df])
+    metrics_df.columns = ['percent', name ,'var']
+    return metrics_df
