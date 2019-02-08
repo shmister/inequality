@@ -86,4 +86,4 @@ def aggregate(k_primeL, k_primeM, k_primeH, env_params):
         k_cross_n = np.clip(k_cross_n, k_min, k_max)
         k_cross = k_cross_n
 
-    return km_series, k_cross, k_crossL_n, k_crossM_n, k_crossH_n
+    return km_series, k_cross, np.clip(k_crossL_n, k_min, k_max), np.clip(k_crossM_n, k_min, k_max), np.clip(k_crossH_n, k_min, k_max)

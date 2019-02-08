@@ -186,12 +186,13 @@ def print_time():
     return '{date:%Y-%m-%d %H:%M:%S}'.format(date=dt.datetime.now())
 
 
-def save_output(k_cross, k_primeL, k_primeM, k_primeH, experiment_folder):
+def save_output(k_cross, k_crossL, k_crossM, k_crossH, k_primeL, k_primeM, k_primeH, experiment_folder):
 
     if experiment_folder is not None:
         experiment_folder = str(experiment_folder)
         pd.DataFrame({'k_primeL': k_primeL, 'k_primeM': k_primeM, 'k_primeH': k_primeH}).to_pickle(experiment_folder + '/k_prime.pkl')
         pd.DataFrame({'k_cross':k_cross}).to_pickle(experiment_folder + '/k_cross.pkl')
+        pd.concat([pd.DataFrame({'name': 'k_crossL', 'values': k_crossL}), pd.DataFrame({'name': 'k_crossM', 'values': k_crossM}), pd.DataFrame({'name': 'k_crossH', 'values': k_crossH})]).to_pickle(experiment_folder + '/k_cross_types.pkl')
         shutil.copy('/Users/mitya/Desktop/inequality/codes/gitcode/inequality/experiments/params.py', experiment_folder + '/params.py')
 
 

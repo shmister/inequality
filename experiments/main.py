@@ -32,7 +32,7 @@ def main():
         diff_B = env_params_updated['diffB']
         k_primeL, k_primeM, k_primeH = k_primeL_new, k_primeM_new, k_primeH_new
 
-    save_output(k_cross_new, k_primeL_new, k_primeM_new, k_primeH_new, experiment_folder= experiment_output_dir(gammaL, gammaM, gammaH))
+    save_output(k_cross_new,k_crossL, k_crossM, k_crossH, k_primeL_new, k_primeM_new, k_primeH_new, experiment_folder= experiment_output_dir(gammaL, gammaM, gammaH))
 
 
     #

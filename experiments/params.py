@@ -19,7 +19,7 @@ betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*be
 #betaL, betaM, betaH = beta_mean - (9/10)*beta_sd, beta_mean, beta_mean + (9/10)*beta_sd
 
 
-gammaL, gammaM, gammaH = 0.75, 1.5, 4.0  # utility function parameter
+gammaL, gammaM, gammaH = 0.5, 1.0, 5.0  # utility function parameter
 #gammaL, gammaM, gammaH = 0.5, 1.0, 2.0  # utility function parameter
 alpha = 0.36  # share of capital in production function
 delta = 0.025  # depreciation rate
@@ -75,5 +75,5 @@ dif_B = 10**10 # difference between coefficients B of ALM on succ. iter.
 criter_k = 1e-8
 criter_B = 1e-8
 update_k = 0.5
-update_B = 0.5
+update_B = 0.7
 B_init = np.array((0,1))*np.ones((nstates_ag, 1))
