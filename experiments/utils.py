@@ -199,7 +199,7 @@ def save_output(k_cross, k_crossL, k_crossM, k_crossH, k_primeL, k_primeM, k_pri
 def experiment_output_dir(gammaL, gammaM, gammaH):
 
     # experiment_path = wd_folder + 'output/' + 'v-{date:%Y-%m-%d %H:%M:%S}.txt'.format( date=dt.datetime.now())
-    experiment_path = wd_folder + 'output/v' + str(gammaL) + 'x' + str(gammaM) + 'x' + str(gammaH)
+    experiment_path = wd_folder + 'v' + str(gammaL) + 'x' + str(gammaM) + 'x' + str(gammaH)
 
     try:
         os.mkdir(experiment_path)

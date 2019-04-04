@@ -1,26 +1,28 @@
 import numpy as np
 
-wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/'
+wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/output/cl3_params/'
 
 equal_shares = False
 
-#betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
+# betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
 
-beta_mean = 0.984
-beta_sd = 0.0102
-
-# beta_mean = 0.9867
-# beta_sd = 0.00672
+# beta_mean = 0.984
+# beta_sd = 0.0102
 
 # beta_mean = 0.9864
 # beta_sd = 0.0053
 
+# beta_mean = 0.9867
+# beta_sd = 0.0067
+
+beta_mean = 0.9814
+beta_sd = 0.0182
+
 betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*beta_sd
-#betaL, betaM, betaH = beta_mean - (9/10)*beta_sd, beta_mean, beta_mean + (9/10)*beta_sd
 
 
-gammaL, gammaM, gammaH = 0.5, 1.0, 5.0  # utility function parameter
-#gammaL, gammaM, gammaH = 0.5, 1.0, 2.0  # utility function parameter
+# gammaL, gammaM, gammaH = 0.5, 1.0, 5.0  # utility function parameter
+
 alpha = 0.36  # share of capital in production function
 delta = 0.025  # depreciation rate
 mu = 0.15  # unemployment benefits as a share of the wage
@@ -28,7 +30,6 @@ l_bar = 1/0.9  # time endowment; normalizes labor supply to 1 in bad state
 
 
 Nagents = 10000  # number of agents for stochastic simulation
-# J = 1000  # number of grid points for stochastic simulation
 Tperiods = 1500 # number of time periods for stochastic simulation
 
 k_min = -2.4 # min capital

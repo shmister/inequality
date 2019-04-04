@@ -7,32 +7,37 @@ from experiments.params import *
 
 def main():
 
-    print("Initiating environment:", print_time())
+    gammas_list = [(1.0, 1.0, 1.0), (0.5, 1.0, 1.0), (1.0, 1.0, 2.0), (1.0, 1.0, 5.0), (0.5, 1.0, 5.0)]
+    for gammaL, gammaM, gammaH in gammas_list:
 
-    env_params = init_env_params(betaL, betaM, betaH)
-    B_new, env_params_updated = update_environment(env_params, B_init)
-    k_primeL, _ = init_kprime_kcross(env_params_updated)
-    k_primeM, _ = init_kprime_kcross(env_params_updated)
-    k_primeH, _ = init_kprime_kcross(env_params_updated)
+        experiment_folder= experiment_output_dir(gammaL, gammaM, gammaH)
 
-    diff_B= dif_B
+        print("Initiating environment:", print_time())
 
-    while diff_B > criter_B:
+        env_params = init_env_params(betaL, betaM, betaH)
+        B_new, env_params_updated = update_environment(env_params, B_init)
+        k_primeL, _ = init_kprime_kcross(env_params_updated)
+        k_primeM, _ = init_kprime_kcross(env_params_updated)
+        k_primeH, _ = init_kprime_kcross(env_params_updated)
 
-        print("Solving individual optimization:", print_time())
-        k_primeL_new, k_primeM_new, k_primeH_new = types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated, gammaL, gammaM, gammaH)
+        diff_B= dif_B
 
-        print("Solving for aggregates:", print_time())
-        km_series, k_cross_new, k_crossL, k_crossM, k_crossH = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
+        while diff_B > criter_B:
 
-        print("Updating environment:", print_time())
-        B_new, env_params_updated = update_environment(env_params, B_new, k_cross_new=k_cross_new, km_ts=km_series)
-        print("diffB", env_params_updated['diffB'])
+            print("Solving individual optimization:", print_time())
+            k_primeL_new, k_primeM_new, k_primeH_new = types_individual_optimzation(k_primeL, k_primeM, k_primeH, env_params_updated, gammaL, gammaM, gammaH)
 
-        diff_B = env_params_updated['diffB']
-        k_primeL, k_primeM, k_primeH = k_primeL_new, k_primeM_new, k_primeH_new
+            print("Solving for aggregates:", print_time())
+            km_series, k_cross_new, k_crossL, k_crossM, k_crossH = aggregate(k_primeL_new, k_primeM_new, k_primeH_new, env_params_updated)
 
-    save_output(k_cross_new,k_crossL, k_crossM, k_crossH, k_primeL_new, k_primeM_new, k_primeH_new, experiment_folder= experiment_output_dir(gammaL, gammaM, gammaH))
+            print("Updating environment:", print_time())
+            B_new, env_params_updated = update_environment(env_params, B_new, k_cross_new=k_cross_new, km_ts=km_series)
+            print("diffB", env_params_updated['diffB'])
+
+            diff_B = env_params_updated['diffB']
+            k_primeL, k_primeM, k_primeH = k_primeL_new, k_primeM_new, k_primeH_new
+
+        save_output(k_cross_new,k_crossL, k_crossM, k_crossH, k_primeL_new, k_primeM_new, k_primeH_new, experiment_folder= experiment_folder)
 
 
     #

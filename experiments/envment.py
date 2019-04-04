@@ -21,7 +21,7 @@ def init_env_params(betaL, betaM, betaH):
     # types_shocks, stat_dist = generate_types_shocks(trans_mat= prob_type, N= Nagents, T= Tperiods+Tperiods_skip)
     print("Generating type shocks.")
     types_shocks, stat_dist = generate_types_shocks_stat_shares(trans_mat= prob_type, N= Nagents, T= Tperiods, range_ratio=0.0005)
-    pd.DataFrame(types_shocks).to_pickle(wd_folder + 'temp/types_shocks.pkl')
+    # pd.DataFrame(types_shocks).to_pickle(wd_folder + 'temp/types_shocks.pkl')
 
     beta_avg = np.dot(stat_dist, np.array([betaL, betaM, betaH]))
 
@@ -81,9 +81,12 @@ def update_environment(env_params, B_coef, k_cross_new=None, km_ts=None):
     else:
         x = np.log(km_ts[Tperiods_skip:(Tperiods-1)]).flatten()
         X = pd.DataFrame([np.ones(len(x)), agg_shocks[Tperiods_skip:(Tperiods-1)], x, agg_shocks[Tperiods_skip:(Tperiods-1)]*x]).T
+        pd.to_pickle(km_ts[Tperiods_skip:(Tperiods-1)], "/Users/mitya/Desktop/inequality/codes/gitcode/inequality/temp/XX.pkl")
         y = np.log(km_ts[(Tperiods_skip+1):]).flatten()
+        pd.to_pickle(km_ts[(Tperiods_skip+1):], "/Users/mitya/Desktop/inequality/codes/gitcode/inequality/temp/yy.pkl")
 
         reg = sm.OLS(y, X).fit()
+        print('R2, root MSE: ', reg.rsquared, np.sqrt(reg.mse_resid))
         B_new = reg.params
         B_mat = np.array((B_new[0], B_new[2], B_new[0]+B_new[1], B_new[2]+B_new[3])).reshape((2, 2))
         diff_B = np.linalg.norm(B_mat- B_coef)
