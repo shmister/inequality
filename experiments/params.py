@@ -6,17 +6,14 @@ equal_shares = False
 
 # betaL, betaM, betaH = 0.9858, 0.9894, 0.9930
 
-# beta_mean = 0.984
-# beta_sd = 0.0102
-
-# beta_mean = 0.9864
-# beta_sd = 0.0053
+beta_mean = 0.984
+beta_sd = 0.0102
 
 # beta_mean = 0.9867
 # beta_sd = 0.0067
 
-beta_mean = 0.9814
-beta_sd = 0.0182
+# beta_mean = 0.9814
+# beta_sd = 0.0182
 
 betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*beta_sd
 

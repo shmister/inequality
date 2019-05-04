@@ -12,6 +12,7 @@ def init_env_params(betaL, betaM, betaH):
 
     # generate aggregate grid
     km = generate_grid(km_min, km_max, ngridkm)
+    print(km)
 
     # generate idiosyncratic and aggregate shocks
     print("Generating idiosyncratic and aggregate shocks.")
