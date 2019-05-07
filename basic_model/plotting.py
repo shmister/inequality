@@ -55,7 +55,7 @@ def plot_lorenz(k_cross):
     pd.DataFrame({'basic_x0': x0, 'basic_y0': y0}).to_pickle(wd_folder + 'temp/basic_model_lorenz.pkl')
 
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.plot(x0, y0, label='Model Distribution')
+    ax.plot(x0, y0, label='Model Distribution ')
     ax.plot(scf_x, scf_y, label='SCF Data')
     ax.set_xlabel('Population Share')
     ax.set_ylabel('Wealth')
