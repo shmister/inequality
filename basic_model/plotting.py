@@ -41,7 +41,7 @@ def plot_policy(k_prime, km_ts, env_params):
                 y_vals = RectBivariateSpline(k, km, k_prime[:, :, i, j]).ev(x_vals, next(km_cycler))
 
                 ax[m, n].plot(x_vals, y_vals, label='Aggregate state = %s, Employment = %s' % (i,j))
-                ax[m, n].set_xlabel('Capital accumulation : percentile = %s' % (percentiles[a]))
+                ax[m, n].set_xlabel('Capital accumulation: percentile = %s' % (percentiles[a]))
                 ax[m, n].legend(loc='best', fontsize=8)
     plt.show()
 
