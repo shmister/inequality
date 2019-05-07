@@ -1,6 +1,6 @@
 import numpy as np
 
-wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/output/cl3_params/'
+wd_folder = '/Users/mitya/Desktop/inequality/codes/gitcode/inequality/output/hold_params/'
 
 equal_shares = False
 
@@ -16,7 +16,7 @@ beta_sd = 0.0102
 # beta_sd = 0.0182
 
 betaL, betaM, betaH = beta_mean - (2/3)*beta_sd, beta_mean, beta_mean + (2/3)*beta_sd
-
+betaL, betaM, betaH = 0.99, 0.99, 0.99
 
 # gammaL, gammaM, gammaH = 0.5, 1.0, 5.0  # utility function parameter
 
